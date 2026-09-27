@@ -12,5 +12,5 @@ self.PG_CONFIG = {
     appId: '1:441951881074:web:fd8bfedaa5c5e3385affeb'
   },
   // Projectinstellingen > Cloud Messaging > Web Push-certificaten > sleutelpaar
-  vapidKey: ''
+  vapidKey: 'BLQdXnj0fKE2ESSXhZkApi2eVD-TqT4FY88nbJvzOrONcNEgPcJqMtcuMoo2B400o_bp8fGdE7J14BcLFQXmF1M'
 };
