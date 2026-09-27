@@ -11,4 +11,30 @@ Stap 0: tools controleren
 - gcloud: niet aanwezig, niet geinstalleerd (optioneel volgens opdracht)
 - Map: C:\Users\ludo\OneDrive - Mutsaerts B.V\Bureaublad\Test-Code\Prive\pomgames (uitgepakt uit pomgames.zip)
 
-Volgende stap: STOP-vraag stap 0 (beheerdersnaam + projectnaam) aan gebruiker gesteld.
+Stap 0: ADMIN=pompie, PROJECT=pomgames-69e53 (uiteindelijk via console aangemaakt, zie hieronder)
+
+Stap 1: inloggen
+- gh auth login --web -> gelukt, account lpompen
+- firebase login --no-localhost + handmatige authorisatiecode -> gelukt, account ludackgpt@gmail.com
+- gcloud: niet geinstalleerd, overgeslagen (optioneel)
+
+Stap 2: GitHub repo + Pages
+- Repo lpompen/pomgames bestond al met oude/rommelige inhoud (losse index.js/package.json, een pomgames.zip in de repo).
+  Gebruiker koos: overschrijven. git init + commit "PomGames 1.1.0" + git push -f origin main -> gelukt.
+- GitHub Pages was al "enabled" or eerdere poging (build_type legacy, branch main, path /) -> APP_URL = https://lpompen.github.io/pomgames/
+- Site gaf HTTP 200 bij eerste controle.
+
+Stap 3: Firebase project + web-app
+- firebase projects:create pomgames-8mun2q -> faalde eerst op "Callers must accept Terms of Service" (Cloud Resource Manager).
+  Gebruiker accepteerde GCP-voorwaarden via console.cloud.google.com.
+- Tweede poging: GCP-project werd aangemaakt, maar addFirebase gaf 403 PERMISSION_DENIED (generieke foutmelding,
+  via webonderzoek geidentificeerd als "Firebase Tos Not Accepted", firebase-tools issue/PR #11096).
+- Geprobeerd: wizard in console.firebase.google.com openen en weer sluiten zonder af te maken -> niet genoeg.
+- Opgelost: gebruiker heeft een Firebase-project volledig aangemaakt via de console zelf (incl. Google Analytics) ->
+  project-ID pomgames-69e53. firebase/.firebaserc aangepast naar dit project-ID (gecommit + gepusht).
+  Losse lege GCP-restprojecten pomgames-8mun2q en pomgames-tk39rz blijven ongebruikt staan (geen kosten, kunnen later
+  verwijderd worden).
+- firebase apps:create WEB "PomGames" --project pomgames-69e53 gaf ook 403 PERMISSION_DENIED (zelfde generieke fout).
+  OAuth-scopes van de ingelogde gebruiker gecontroleerd: cloud-platform, cloudplatformprojects.readonly, firebase,
+  email, openid -> allemaal aanwezig, dus geen scope-probleem. Vermoeden: IAM-propagatievertraging op het
+  net aangemaakte project. Wachten en opnieuw proberen.

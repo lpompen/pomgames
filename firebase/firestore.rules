@@ -7,7 +7,7 @@ service cloud.firestore {
 
     // BEHEERDER: vervang jouwnaam door jouw gebruikersnaam in kleine letters.
     // Meer beheerders: ['sam@pomgames.example', 'pom@pomgames.example']
-    function isAdmin() { return signedIn() && request.auth.token.email in ['jouwnaam@pomgames.example']; }
+    function isAdmin() { return signedIn() && request.auth.token.email in ['pompie@pomgames.example']; }
 
     // Gebruikersnamen: één keer claimen, daarna nooit meer wijzigen of verwijderen.
     match /usernames/{name} {
