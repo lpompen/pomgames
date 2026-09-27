@@ -55,4 +55,16 @@ Stap 4: auth, database, regels
 - Commit + push: "Firebase ingesteld: project pomgames-82aa0, auth, firestore, regels" -> gelukt.
 - DEPLOY.md aangemaakt met projectgegevens en openstaande punten (stap 6 en 7).
 
-Volgende stap: stap 6, STOP voor Blaze-abonnement + meldingen-sleutel (alleen door gebruiker zelf).
+Stap 6: gebruiker heeft Blaze-abonnement geactiveerd en een meldingen-sleutel (VAPID) gegenereerd.
+- config.js: vapidKey ingevuld.
+- firebase/functions/.env: APP_URL=https://lpompen.github.io/pomgames/
+- Commit + push: "Meldingen-sleutel (vapidKey) en functions APP_URL ingevuld" -> gelukt.
+
+Stap 7: Cloud Function (pushmeldingen)
+- npm install in firebase/functions -> gelukt (waarschuwing: engine wil node 22, lokaal node 24 geinstalleerd;
+  niet relevant, Cloud Functions draait zelf op Node 22 runtime).
+- deploy --only functions, poging 1: faalde op IAM-bindingen voor nieuwe service-agents (pubsub/eventarc) ->
+  bekende opstartfout, 5 minuten gewacht.
+- poging 2: kwam verder (IAM-bindingen gelukt, functiecode geupload) maar faalde op het aanmaken van de
+  Eventarc-trigger: "Permission denied while using the Eventarc Service Agent... may take a few minutes".
+  Ook bekende opstartfout uit de opdracht. Opnieuw 5 minuten gewacht voor poging 3.
