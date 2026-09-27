@@ -38,3 +38,21 @@ Stap 3: Firebase project + web-app
   OAuth-scopes van de ingelogde gebruiker gecontroleerd: cloud-platform, cloudplatformprojects.readonly, firebase,
   email, openid -> allemaal aanwezig, dus geen scope-probleem. Vermoeden: IAM-propagatievertraging op het
   net aangemaakte project. Wachten en opnieuw proberen.
+- firebase projects:list gaf "No projects found" -> bleek dat gebruiker in de browser met een ANDER Google-account
+  was ingelogd dan de CLI (ludackgpt@gmail.com). Gebruiker opnieuw ingelogd met juiste account en project
+  opnieuw aangemaakt -> pomgames-82aa0. firebase/.firebaserc aangepast. firebase projects:list toont nu pomgames-82aa0.
+- apps:create WEB "PomGames" --project pomgames-82aa0 -> gelukt, appId 1:441951881074:web:fd8bfedaa5c5e3385affeb
+- apps:sdkconfig WEB -> gelukt, config.js ingevuld (apiKey, authDomain, projectId, storageBucket,
+  messagingSenderId, appId). vapidKey nog leeg (stap 6/7).
+
+Stap 4: auth, database, regels
+- deploy --only auth -> e-mail/wachtwoord ingeschakeld.
+- firestore:databases:create (default) --location=europe-west1 -> faalde eerst: "Cloud Firestore API has not been
+  used in project ... or it is disabled" (403). Gebruiker heeft de API handmatig aangezet via de console-link.
+  Tweede poging gelukt.
+- firestore.rules: isAdmin vervangen door pompie@pomgames.example. deploy --only firestore:rules -> gelukt.
+- Stap 4b (toegestaan domein): overgeslagen, geen gcloud beschikbaar. Wordt in stap 8 getest.
+- Commit + push: "Firebase ingesteld: project pomgames-82aa0, auth, firestore, regels" -> gelukt.
+- DEPLOY.md aangemaakt met projectgegevens en openstaande punten (stap 6 en 7).
+
+Volgende stap: stap 6, STOP voor Blaze-abonnement + meldingen-sleutel (alleen door gebruiker zelf).
