@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PomGames</title>
+<script>
+/* Deellinks van games die in PomGames draaien zien eruit als .../spel/<game>/?join=CODE.
+   GitHub Pages kent dat adres niet en toont deze pagina; die stuurt door naar PomGames. */
+(function () {
+  var p = location.pathname, i = p.indexOf('/spel/');
+  if (i < 0) { location.replace(p.replace(/[^/]*$/, '') || '/'); return; }
+  var base = p.slice(0, i + 1), id = p.slice(i + 6).split('/')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+  var q = location.search.slice(1);
+  location.replace(base + '?g=' + id + (q ? '&' + q : ''));
+})();
+</script></head><body style="background:#150F26;color:#F2EDFF;font-family:system-ui,sans-serif;text-align:center;padding:40px 16px">PomGames openen…</body></html>

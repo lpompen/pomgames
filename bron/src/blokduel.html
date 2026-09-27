@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Blokduel">
+<meta name="theme-color" content="#150F26">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEOklEQVR4nO3dsYtcVRjG4RsRLJNCs0LAwmJNoyAShFSrnYikS5rtBbut7CzsrOwE+202XQhip1sJIougjUmRQlgwg0Us7SxOM7C+w92d+c6cgef5A+59ix/nDgMz99pr1/cn+D8vbXsA4xIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIXu5/y8Xjvf43vfnJ881e8O7xk81ecI6fDt/qebtr3X5IvZUmLlqzkq00cVGfSjo9VgYpY1pvySBlTL2W9Dg5Fo/3plsPqu9yCecnVzg/7h4/ufdmxZorevSs/PwoPznGOTOWXXbVOGfGsupVtXGMWUYzf9uYZTSl2wrjGLmMZs7Ckcto6hZWxTF+Gc3qneOX0RTt9CUYUa8vwc5POt2o0qNn217QV8nJsSvPlCat3ZVnSlOx1mOFSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQVT11oT2/42nv76ouPimHLx7Y1r5Bpb2/41//37aadCVvPr2wVTzBpbCk2PwMqZ5CwcvY6pcWBXH+GU0q3eOX0ZTtLMkjodfvlJx2SJp7f7n33Zeso6KtT6QEomDSBxEJXHc/+LfissWSWuffvVp5yXrqFhbdXLsSh+rd+5KH0U7Cx8r4/cxZ+H4fdQt7PdGanaOD6RE4iASB5E4iMRBJA6iXi8dXrI4vNP/pjePf9nsBW+fHW32gnP88d7XPW/X73uOrTRx0ZqVbKWJi/pU0umxMkgZ03pLBilj6rWkx2NlcXhn+vCjDjeaaXGl8+P22dGD6+9U7Lmak7Oj6vOj/OQY58xYdtlV45wZy6pX1cYxZhnN/G1jltGUbiuMY+QymjkLRy6jqVtYFcf4ZTSrd45fRlO005dgRL2+BPvh+043qnTyz2/bntBVycmxK8+UJq3dlWdKU7HWY4VIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBVPW+lfb/jafnzysuvikHt/amlW9QaP/f+OLnp/02Xd6N9/enmjewFJ4cg5cxzVs4eBlT5cKqOMYvo1m9c/wymqKdJXE8/OCNissWSWtf/+bjzkvWUbHWB1IicRCJg6gkjvs//llx2SJp7V+ffdd5yToq1ladHLvSx+qdu9JH0c7Cx8r4fcxZOH4fdQv7vZGaneMDKZE4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iP4DyzT5CR2GjC8AAAAASUVORK5CYII=">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEOklEQVR4nO3dsYtcVRjG4RsRLJNCs0LAwmJNoyAShFSrnYikS5rtBbut7CzsrOwE+202XQhip1sJIougjUmRQlgwg0Us7SxOM7C+w92d+c6cgef5A+59ix/nDgMz99pr1/cn+D8vbXsA4xIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIXu5/y8Xjvf43vfnJ881e8O7xk81ecI6fDt/qebtr3X5IvZUmLlqzkq00cVGfSjo9VgYpY1pvySBlTL2W9Dg5Fo/3plsPqu9yCecnVzg/7h4/ufdmxZorevSs/PwoPznGOTOWXXbVOGfGsupVtXGMWUYzf9uYZTSl2wrjGLmMZs7Ckcto6hZWxTF+Gc3qneOX0RTt9CUYUa8vwc5POt2o0qNn217QV8nJsSvPlCat3ZVnSlOx1mOFSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQVT11oT2/42nv76ouPimHLx7Y1r5Bpb2/41//37aadCVvPr2wVTzBpbCk2PwMqZ5CwcvY6pcWBXH+GU0q3eOX0ZTtLMkjodfvlJx2SJp7f7n33Zeso6KtT6QEomDSBxEJXHc/+LfissWSWuffvVp5yXrqFhbdXLsSh+rd+5KH0U7Cx8r4/cxZ+H4fdQt7PdGanaOD6RE4iASB5E4iMRBJA6iXi8dXrI4vNP/pjePf9nsBW+fHW32gnP88d7XPW/X73uOrTRx0ZqVbKWJi/pU0umxMkgZ03pLBilj6rWkx2NlcXhn+vCjDjeaaXGl8+P22dGD6+9U7Lmak7Oj6vOj/OQY58xYdtlV45wZy6pX1cYxZhnN/G1jltGUbiuMY+QymjkLRy6jqVtYFcf4ZTSrd45fRlO005dgRL2+BPvh+043qnTyz2/bntBVycmxK8+UJq3dlWdKU7HWY4VIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBVPW+lfb/jafnzysuvikHt/amlW9QaP/f+OLnp/02Xd6N9/enmjewFJ4cg5cxzVs4eBlT5cKqOMYvo1m9c/wymqKdJXE8/OCNissWSWtf/+bjzkvWUbHWB1IicRCJg6gkjvs//llx2SJp7V+ffdd5yToq1ladHLvSx+qdu9JH0c7Cx8r4fcxZOH4fdQv7vZGaneMDKZE4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iP4DyzT5CR2GjC8AAAAASUVORK5CYII=">
+<title>Blokduel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik:wght@400;500;700&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#EFEAF8;--ink:#1D1533;--muted:#62558A;--panel:#FFFFFF;--line:#D8CFEB;--scrim:rgba(29,21,51,.55);
+  --well:#1D1533;--slot:#2C2349;
+  --k1:#FF6B5B;--k2:#FFC23D;--k3:#3DDC97;--k4:#4FB3FF;--k5:#B48CFF;--k6:#FF7AC6;--k7:#FF9447;
+  --font:'Rubik',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --display:'Bungee','Arial Black',system-ui,sans-serif;
+  --cs:38px;--tc:18px;--bs:330px;--th:120px;--gc:var(--k2);--glow:transparent;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150F26;--ink:#F2EDFF;--muted:#A597C8;--panel:#221A3A;--line:#3A2E58;--scrim:rgba(8,5,16,.72);--well:#0D0919;--slot:#241C3E;}}
+:root[data-theme="dark"]{--bg:#150F26;--ink:#F2EDFF;--muted:#A597C8;--panel:#221A3A;--line:#3A2E58;--scrim:rgba(8,5,16,.72);--well:#0D0919;--slot:#241C3E;}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);overflow:hidden;overscroll-behavior:none;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+button:focus-visible,input:focus-visible{outline:3px solid var(--k4);outline-offset:2px}
+
+#app{height:100%;max-width:560px;margin:0 auto;padding:4px 12px 8px;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;touch-action:none}
+#top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:56px}
+#top{grid-row:1}#opp{grid-row:2}#boardWrap{grid-row:3}#tray{grid-row:4}
+#mode{font-family:var(--display);font-size:14px;line-height:1.1;color:var(--muted)}
+#scorebox{text-align:center;min-width:120px}
+#score{font-family:var(--display);font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+#sub{font-size:13px;font-weight:500;color:var(--muted);margin-top:3px;min-height:16px;white-space:nowrap}
+.iconbtn{justify-self:end;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;padding:0}
+.iconbtn svg{width:20px;height:20px}
+
+#opp{display:none;align-items:center;gap:12px;padding:8px 12px;margin:2px 0 8px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
+#opp.on{display:flex}
+#oppVis{flex:none;display:flex;gap:8px;align-items:center;--tc:7px}
+.mb{display:grid;grid-template-columns:repeat(8,7px);grid-auto-rows:7px;gap:1px;padding:3px;background:var(--well);border-radius:6px}
+.mb i{border-radius:2px}.mb i:not([class]){background:var(--slot)}
+.oppinfo{flex:1;min-width:0}
+#oppName{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#oppName::before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--oc,var(--k4));margin-right:6px;vertical-align:1px}
+#oppStat{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#oppScore{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums}
+
+#boardWrap{position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
+#board{position:relative;width:var(--bs);height:var(--bs);padding:6px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);gap:3px;
+  background:var(--well);border-radius:16px;box-shadow:0 0 0 3px var(--glow),0 12px 30px rgba(20,10,40,.28);transition:box-shadow .25s}
+.cell{border-radius:22%;background:var(--slot)}
+.b{box-shadow:inset 0 calc(var(--cs)*-.11) 0 rgba(0,0,0,.24),inset 0 calc(var(--cs)*.09) 0 rgba(255,255,255,.38)}
+.k1{background:var(--k1)}.k2{background:var(--k2)}.k3{background:var(--k3)}.k4{background:var(--k4)}
+.k5{background:var(--k5)}.k6{background:var(--k6)}.k7{background:var(--k7)}
+.k8{background:repeating-linear-gradient(135deg,#8A83A3 0 3px,#6C6586 3px 7px)}
+.cell.g{background:var(--gc);opacity:.42}
+.cell.hl{background:var(--gc);opacity:1;filter:brightness(1.1)}
+#fx{position:absolute;inset:0;pointer-events:none;z-index:2}
+.fxc{position:absolute;width:var(--cs);height:var(--cs);border-radius:22%;animation:pop .42s ease-out both}
+.fxf{position:absolute;width:var(--cs);height:var(--cs);border-radius:22%;background:#fff;animation:flash .28s ease-out both}
+.fxs{position:absolute;width:var(--cs);height:var(--cs);border-radius:22%;border:3px solid #fff;animation:stone .5s ease-out both}
+.fxt{position:absolute;font-family:var(--display);color:#fff;font-size:22px;line-height:1.05;text-align:center;white-space:nowrap;
+  text-shadow:0 2px 0 rgba(0,0,0,.4);animation:rise 1s ease-out both}
+.fxt small{display:block;font-size:14px;color:var(--k2)}
+@keyframes pop{0%{transform:scale(1);filter:brightness(1.7)}45%{transform:scale(1.14);opacity:1}100%{transform:scale(.15) rotate(20deg);opacity:0}}
+@keyframes flash{0%{opacity:.55}100%{opacity:0}}
+@keyframes stone{0%{transform:scale(1.6);opacity:0}40%{opacity:1}100%{transform:scale(1);opacity:0}}
+@keyframes rise{0%{opacity:0;transform:translate(-50%,-30%) scale(.8)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}100%{opacity:0;transform:translate(-50%,-150%)}}
+#count{position:absolute;inset:0;display:none;align-items:center;justify-content:center;pointer-events:none;z-index:3;
+  font-family:var(--display);font-size:78px;color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.35)}
+#count.on{display:flex}
+
+#tray{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;height:var(--th);padding-top:8px}
+.slot{display:flex;align-items:center;justify-content:center;border-radius:16px;touch-action:none}
+.mini{display:grid;gap:max(1px,calc(var(--tc)*.1));--cs:var(--tc);transition:opacity .15s}
+.mini i{width:var(--tc);height:var(--tc);border-radius:22%}
+.slot.off .mini{opacity:.3}
+.slot.lift .mini{visibility:hidden}
+
+#drag{position:fixed;left:0;top:0;display:none;pointer-events:none;z-index:30;will-change:transform}
+#drag .dz{position:relative;width:100%;height:100%;transform-origin:50% 100%;animation:grab .12s ease-out;filter:drop-shadow(0 10px 10px rgba(0,0,0,.35))}
+#drag i{position:absolute}
+@keyframes grab{from{transform:scale(.55)}to{transform:scale(1)}}
+
+#toast{position:absolute;left:50%;top:6px;transform:translate(-50%,-8px);opacity:0;pointer-events:none;z-index:45;
+  background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-weight:500;font-size:15px;max-width:88vw;text-align:center;transition:opacity .2s,transform .2s}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+
+#ov{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:var(--scrim);
+  padding:calc(env(safe-area-inset-top,0px) + 16px) 16px calc(env(safe-area-inset-bottom,0px) + 16px);touch-action:manipulation}
+#ov.on{display:flex}
+.panel{width:100%;max-width:400px;max-height:100%;overflow:auto;background:var(--panel);color:var(--ink);border-radius:24px;padding:22px 20px 18px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.panel h2{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.15;margin:0 0 6px}
+.panel p{margin:6px 0;line-height:1.45}
+.tiles{display:flex;justify-content:center;gap:4px;margin:6px 0 10px}
+.tiles span{display:grid;place-items:center;width:34px;height:40px;border-radius:9px;font-family:var(--display);font-size:22px;color:#1D1533;
+  box-shadow:inset 0 -4px 0 rgba(0,0,0,.22),inset 0 3px 0 rgba(255,255,255,.4)}
+.tiles span:nth-child(1){background:var(--k1);transform:rotate(-4deg)}.tiles span:nth-child(2){background:var(--k2);transform:translateY(3px)}
+.tiles span:nth-child(3){background:var(--k3);transform:rotate(3deg)}.tiles span:nth-child(4){background:var(--k4)}
+.tiles span:nth-child(5){background:var(--k5);transform:rotate(-3deg) translateY(2px)}.tiles span:nth-child(6){background:var(--k6)}
+.tiles span:nth-child(7){background:var(--k7);transform:rotate(4deg)}.tiles span:nth-child(8){background:var(--k2);transform:translateY(-2px)}
+.tag{text-align:center;color:var(--muted)}
+.btn{display:block;width:100%;min-height:52px;border-radius:15px;border:0;font-weight:700;font-size:17px;margin-top:10px;padding:0 14px}
+.btn.pri{background:var(--k2);color:#1D1533;box-shadow:inset 0 -4px 0 rgba(0,0,0,.16)}
+.btn.sec{background:transparent;border:2px solid var(--line)}
+.btn.ghost{background:transparent;color:var(--muted);font-weight:500;min-height:44px}
+.btn:active,.mode:active{transform:translateY(1px)}
+.mode{display:block;width:100%;text-align:left;border:2px solid var(--line);background:transparent;border-radius:16px;padding:13px 15px;margin-top:10px}
+.mode b{display:block;font-family:var(--display);font-weight:400;font-size:18px;margin-bottom:3px}
+.mode span{display:block;color:var(--muted);font-size:14px;line-height:1.4}
+div.mode{cursor:default}
+.mode .lab{margin-top:10px}.mode .btn{margin-top:10px}
+.chips{display:flex;gap:6px;margin-top:6px}
+.chip{flex:1 1 0;min-width:0;min-height:42px;padding:0 2px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--ink);font:600 14px var(--font);white-space:nowrap}
+.chip.on{background:var(--k2);border-color:var(--k2);color:#1D1533}
+.lab{display:block;font-size:14px;font-weight:500;color:var(--muted);margin-top:12px}
+.field{display:block;width:100%;min-height:50px;border-radius:14px;border:2px solid var(--line);background:transparent;color:var(--ink);
+  font:500 17px var(--font);padding:0 14px;margin-top:6px;-webkit-user-select:text;user-select:text}
+.field.code{font-family:var(--display);font-size:26px;letter-spacing:.25em;text-align:center;text-transform:uppercase}
+.or{text-align:center;color:var(--muted);font-size:14px;margin:18px 0 0}
+.bigcode{font-family:var(--display);font-size:54px;letter-spacing:.14em;text-align:center;margin:6px 0 2px;-webkit-user-select:text;user-select:text}
+.status{font-weight:500}
+.status.wait::after{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--k3);margin-left:8px;vertical-align:1px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+.fine{font-size:13px;color:var(--muted)}
+.big{font-family:var(--display);font-size:44px;text-align:center;margin:4px 0}
+.rows{margin:10px 0 4px;border-top:1px solid var(--line)}
+.rows div{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:16px}
+.rows b{font-family:var(--display);font-weight:400}
+textarea.field{min-height:220px;padding:10px;font:12px/1.4 ui-monospace,Menlo,monospace}
+@media (prefers-reduced-motion:reduce){.fxc,.fxt,.fxf,.fxs,#drag .dz{animation-duration:.01s}.status.wait::after{animation:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <div id="mode">Blokduel</div>
+    <div id="scorebox"><div id="score">0</div><div id="sub"></div></div>
+    <button class="iconbtn" data-a="menu" aria-label="Menu"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="2" y="4" width="16" height="2.4" rx="1.2"/><rect x="2" y="9" width="16" height="2.4" rx="1.2"/><rect x="2" y="14" width="16" height="2.4" rx="1.2"/></svg></button>
+  </header>
+  <section id="opp"><div id="oppVis"></div><div class="oppinfo"><div id="oppName"></div><div id="oppStat"></div></div><div id="oppScore"></div></section>
+  <main id="boardWrap"><div id="board"><div id="fx"></div></div><div id="count"></div><div id="toast" role="status" aria-live="polite"></div></main>
+  <footer id="tray"><div class="slot" data-i="0"></div><div class="slot" data-i="1"></div><div class="slot" data-i="2"></div></footer>
+</div>
+<div id="drag"><div class="dz"></div></div>
+<div id="ov" role="dialog" aria-modal="true"><div class="panel" id="panel"></div></div>
+
+<script>
+(() => {
+'use strict';
+const VERSION = '1.1.0';
+const N = 8, PAD = 6, GAP = 3;
+const PEER_PREFIX = 'blokduel-v1-';
+const $ = s => document.querySelector(s);
+const T0 = performance.now();
+const params = new URLSearchParams(location.search);
+const IN_CLAUDE = !!(window.claude && typeof window.claude.use === 'function');
+const FORCE_BC = params.get('net') === 'bc';
+const ls = {
+  get(k, d) { try { const v = localStorage.getItem('blokduel.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('blokduel.' + k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem('blokduel.' + k); } catch (e) {} }
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = n => Number(n || 0).toLocaleString('nl-NL');
+const ptn = n => `${fmt(n)} ${n === 1 ? 'punt' : 'punten'}`;
+const fmtTime = ms => { const s = Math.ceil(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+
+/* ---------------- LOG van de laatste run ---------------- */
+const Log = (() => {
+  const d = { run: Math.random().toString(36).slice(2, 8), version: VERSION, started: new Date().toISOString(),
+    env: FORCE_BC ? 'test-broadcast' : IN_CLAUDE ? 'claude-artifact' : 'web', ua: navigator.userAgent.slice(0, 180),
+    screen: `${screen.width}x${screen.height} dpr${window.devicePixelRatio || 1} venster${innerWidth}x${innerHeight}`, errors: 0, entries: [] };
+  let dirty = true, db = null, uid = null, busy = false;
+  function add(kind, msg) {
+    const t = ((performance.now() - T0) / 1000).toFixed(1).padStart(6, ' ');
+    d.entries.push(`${t}s ${kind.padEnd(4)} ${String(msg).replace(/[\u0000-\u001f\u007f]/g, ' ').slice(0, 240)}`);
+    if (d.entries.length > 400) d.entries.splice(0, d.entries.length - 400);
+    if (kind === 'err') { d.errors++; setTimeout(flush, 100); }
+    dirty = true;
+  }
+  async function flush() {
+    if (!dirty) return;
+    dirty = false; d.saved = new Date().toISOString();
+    ls.set('lastlog', d);
+    if (db && uid && !busy) {
+      busy = true;
+      try { await db.doc(`data/users/${uid}/runlog`).set(JSON.parse(JSON.stringify(d))); }
+      catch (e) { const c = e && e.code; if (c === 'invalid_argument' || c === 'revoked' || c === 'not_granted') { db = null; add('info', 'online log-opslag uit: ' + c); } else dirty = true; }
+      busy = false;
+    }
+  }
+  const text = () => [`Blokduel log  run=${d.run}  v${d.version}  omgeving=${d.env}`, `start ${d.started}`, `toestel ${d.ua}`, `scherm ${d.screen}`, `fouten ${d.errors}`, '', ...d.entries].join('\n');
+  setInterval(flush, 3000);
+  document.addEventListener('visibilitychange', () => { add('info', document.visibilityState === 'hidden' ? 'app naar achtergrond' : 'app weer zichtbaar'); if (document.visibilityState === 'hidden') flush(); });
+  addEventListener('pagehide', () => { dirty = true; flush(); });
+  return { add, flush, text, attach(ns, id) { db = ns; uid = id; dirty = true; flush(); } };
+})();
+addEventListener('error', e => Log.add('err', `${e.message || 'fout'} @${String(e.filename || '').split('/').pop()}:${e.lineno || 0}`));
+addEventListener('unhandledrejection', e => { const r = e.reason; Log.add('err', 'promise: ' + (r ? (r.code ? r.code + ' ' : '') + (r.message || r.type || String(r)) : '?')); });
+Log.add('info', `start v${VERSION} omgeving=${FORCE_BC ? 'test' : IN_CLAUDE ? 'claude' : 'web'}`);
+
+let roomP = Promise.resolve(null);
+if (IN_CLAUDE && !FORCE_BC) {
+  roomP = window.claude.use('room').catch(() => null);
+  roomP.then(r => Log.add('net', 'realtime kamer ' + (r ? 'beschikbaar' : 'niet beschikbaar')));
+  (async () => {
+    try {
+      const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+      if (!db || !user) { Log.add('info', 'db/user niet beschikbaar: log alleen lokaal'); return; }
+      const id = await user.id();
+      if (!id) { Log.add('info', 'geen gebruikers-id: log alleen lokaal'); return; }
+      try {
+        const prev = await db.doc(`data/users/${id}/runlog`).get();
+        if (prev.exists) await db.doc(`data/users/${id}/runlog_prev`).set(JSON.parse(JSON.stringify(prev.data())));
+      } catch (e) { Log.add('info', 'vorige log niet bewaard: ' + (e && e.code)); }
+      Log.attach(db, id); Log.add('info', 'log wordt online bewaard');
+    } catch (e) { Log.add('err', 'log-opslag: ' + (e && (e.code || e.message))); }
+  })();
+}
+
+/* ---------------- ENGINE ---------------- */
+class RNG {
+  constructor(s) { this.a = s >>> 0; }
+  next() { let t = (this.a = (this.a + 0x6D2B79F5) >>> 0); t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
+}
+const SRC = [
+  ['#', 2], ['##', 3], ['#|#', 3], ['###', 3], ['#|#|#', 3], ['####', 2], ['#|#|#|#', 2], ['#####', 1], ['#|#|#|#|#', 1],
+  ['##|##', 3], ['###|###|###', 1], ['###|###', 1], ['##|##|##', 1],
+  ['##|#.', 2], ['##|.#', 2], ['#.|##', 2], ['.#|##', 2],
+  ['###|#..|#..', 1], ['###|..#|..#', 1], ['#..|#..|###', 1], ['..#|..#|###', 1],
+  ['#.|#.|##', 1], ['.#|.#|##', 1], ['##|#.|#.', 1], ['##|.#|.#', 1], ['###|#..', 1], ['###|..#', 1], ['#..|###', 1], ['..#|###', 1],
+  ['###|.#.', 1], ['.#.|###', 1], ['#.|##|#.', 1], ['.#|##|.#', 1],
+  ['##.|.##', 1], ['.##|##.', 1], ['#.|##|.#', 1], ['.#|##|#.', 1]
+];
+const SHAPES = SRC.map(([s, w]) => {
+  const rows = s.split('|'), cells = [];
+  rows.forEach((row, r) => { for (let c = 0; c < row.length; c++) if (row[c] === '#') cells.push([r, c]); });
+  return { cells, h: rows.length, w: Math.max(...rows.map(x => x.length)), weight: w };
+});
+const TOTAL_W = SHAPES.reduce((a, s) => a + s.weight, 0);
+function pickShape(R) { let x = R.next() * TOTAL_W; for (let i = 0; i < SHAPES.length; i++) { x -= SHAPES[i].weight; if (x < 0) return i; } return SHAPES.length - 1; }
+function fits(b, sh, r, c) {
+  if (r < 0 || c < 0 || r + sh.h > N || c + sh.w > N) return false;
+  for (const [dr, dc] of sh.cells) if (b[(r + dr) * N + c + dc]) return false;
+  return true;
+}
+function canPlace(b, sh) { for (let r = 0; r <= N - sh.h; r++) for (let c = 0; c <= N - sh.w; c++) if (fits(b, sh, r, c)) return true; return false; }
+function genTray(R, b) {
+  const t = [];
+  for (let i = 0; i < 3; i++) {
+    let s = pickShape(R);
+    for (let k = 0; k < 3 && !canPlace(b, SHAPES[s]); k++) s = pickShape(R);
+    t.push({ s, c: 1 + Math.floor(R.next() * 7) });
+  }
+  return t;
+}
+function fullLines(b) {
+  const rows = [], cols = [];
+  for (let i = 0; i < N; i++) {
+    let fr = true, fc = true;
+    for (let j = 0; j < N; j++) { if (!b[i * N + j]) fr = false; if (!b[j * N + i]) fc = false; }
+    if (fr) rows.push(i); if (fc) cols.push(i);
+  }
+  return { rows, cols };
+}
+const scoreFor = (lines, combo) => lines ? Math.round(lines * (lines + 1) / 2 * 10 * (1 + 0.5 * Math.max(0, combo - 1))) : 0;
+function commit(b, sh, r, c, color, sc) {
+  const cells = sh.cells.map(([dr, dc]) => (r + dr) * N + c + dc);
+  for (const i of cells) b[i] = color;
+  const { rows, cols } = fullLines(b);
+  const set = new Set();
+  for (const r2 of rows) for (let j = 0; j < N; j++) set.add(r2 * N + j);
+  for (const c2 of cols) for (let j = 0; j < N; j++) set.add(j * N + c2);
+  const cleared = [...set].map(i => [i, b[i]]);
+  for (const i of set) b[i] = 0;
+  const lines = rows.length + cols.length;
+  if (lines) { sc.combo++; sc.miss = 0; } else if (++sc.miss >= 3) sc.combo = 0;
+  let pts = cells.length + scoreFor(lines, sc.combo), bonus = 0;
+  if (lines && b.every(x => !x)) { bonus = 300; pts += bonus; }
+  return { cells, cleared, lines, combo: lines ? sc.combo : 0, pts, bonus, color };
+}
+function newRun(seed) {
+  const R = new RNG(seed), st = { R, b: new Uint8Array(64), score: 0, combo: 0, miss: 0, moves: 0, lines: 0 };
+  st.tray = genTray(R, st.b); return st;
+}
+function applyMove(st, slot, r, c) {
+  const p = st.tray[slot]; if (!p) return null;
+  const sh = SHAPES[p.s]; if (!fits(st.b, sh, r, c)) return null;
+  const res = commit(st.b, sh, r, c, p.c, st);
+  st.tray[slot] = null; st.score += res.pts; st.moves++; st.lines += res.lines;
+  if (st.tray.every(x => !x)) st.tray = genTray(st.R, st.b);
+  return res;
+}
+const stuck = (b, tray) => !tray.some(p => p && canPlace(b, SHAPES[p.s]));
+function completesLine(b, i) {
+  const r = i >> 3, c = i & 7; let fr = true, fc = true;
+  for (let j = 0; j < N; j++) { if (j !== c && !b[r * N + j]) fr = false; if (j !== r && !b[j * N + c]) fc = false; }
+  return fr || fc;
+}
+function addStones(b, n) {
+  const empty = []; for (let i = 0; i < 64; i++) if (!b[i]) empty.push(i);
+  const placed = [];
+  for (let k = 0; k < n && empty.length; k++) {
+    let pick = -1;
+    for (let t = 0; t < 14; t++) { const j = Math.floor(Math.random() * empty.length); if (!completesLine(b, empty[j])) { pick = j; break; } }
+    if (pick < 0) pick = Math.floor(Math.random() * empty.length);
+    const i = empty.splice(pick, 1)[0]; b[i] = 8; placed.push(i);
+  }
+  return placed;
+}
+const stonesFor = res => (res.lines >= 2 ? res.lines : 0) + (res.lines && res.combo >= 3 ? 1 : 0) + (res.bonus ? 3 : 0);
+const boardStr = b => Array.from(b).join('');
+
+/* Blokkeerduel: één bord, om de beurt. Het bord wordt bij elke zet deterministisch opnieuw afgespeeld
+   uit (seed, wie begint, zetten van speler 0, zetten van speler 1). Zo blijven beide toestellen gelijk. */
+const DUEL_COL = [2, 4];
+function duelReplay(seed, starter, mv, tout) {
+  const b = new Uint8Array(64);
+  const R = [new RNG(seed ^ 0x51ED), new RNG((seed ^ 0xB10C) + 7)];
+  const mk = p => genTray(R[p], b).map(x => ({ s: x.s, c: DUEL_COL[p] }));
+  const trays = [mk(0), mk(1)];
+  const idx = [0, 0], pts = [0, 0], sc = [{ combo: 0, miss: 0 }, { combo: 0, miss: 0 }], out = [0, 0];
+  let k = 0, turn = starter, winner = -1, done = false, last = null, bad = false;
+  /* Af (klem of tijd op) blijft af. De ander wint zodra die meer punten heeft; zijn beiden af, dan beslissen de punten. */
+  const judge = () => {
+    if (out[0] && out[1]) { done = true; winner = pts[0] > pts[1] ? 0 : pts[1] > pts[0] ? 1 : 2; return true; }
+    for (let a = 0; a < 2; a++) if (out[a] && !out[1 - a] && pts[1 - a] > pts[a]) { done = true; winner = 1 - a; return true; }
+    return false;
+  };
+  for (let guard = 0; guard < 4000; guard++) {
+    if (judge()) break;
+    if (out[turn]) turn = 1 - turn;
+    const p = turn;
+    if (tout[p] >= 0 && idx[p] >= tout[p]) { out[p] = 2; continue; }
+    if (stuck(b, trays[p])) { out[p] = 1; continue; }
+    if (idx[p] * 3 + 3 > mv[p].length) break;
+    const m = mv[p].substr(idx[p] * 3, 3), slot = +m[0], r = +m[1], c = +m[2];
+    const piece = trays[p][slot];
+    if (!piece || !fits(b, SHAPES[piece.s], r, c)) { bad = true; break; }
+    const res = commit(b, SHAPES[piece.s], r, c, piece.c, sc[p]);
+    pts[p] += res.pts; trays[p][slot] = null;
+    if (trays[p].every(x => !x)) trays[p] = mk(p);
+    last = { p, res }; idx[p]++; k++;
+    turn = 1 - p;
+  }
+  return { b, trays, turn, out, winner, done, pts, k, idx, last, bad };
+}
+
+/* ---------------- DOM ---------------- */
+const rootEl = document.documentElement, boardEl = $('#board'), fxEl = $('#fx'), dragEl = $('#drag'), dzEl = $('#drag .dz');
+const scoreEl = $('#score'), subEl = $('#sub'), modeEl = $('#mode'), countEl = $('#count'), toastEl = $('#toast');
+const ovEl = $('#ov'), panelEl = $('#panel'), oppEl = $('#opp'), oppVis = $('#oppVis');
+const slots = [...document.querySelectorAll('.slot')];
+const cellEls = [], cellCls = [];
+for (let i = 0; i < 64; i++) { const d = document.createElement('div'); d.className = 'cell'; boardEl.appendChild(d); cellEls.push(d); cellCls.push('cell'); }
+const EMPTY = new Uint8Array(64);
+let G = null, ui = 'home', curGid = 0, localRound = 0, geo = { pitch: 40, cs: 37 };
+
+function layout() {
+  const th = Math.round(Math.max(92, Math.min(170, innerHeight * 0.2)));
+  rootEl.style.setProperty('--th', th + 'px');
+  const wrap = $('#boardWrap');
+  const size = Math.min(wrap.clientWidth, wrap.clientHeight, 520);
+  const cs = Math.max(20, Math.floor((size - 2 * PAD - 7 * GAP) / 8));
+  const bs = cs * 8 + 7 * GAP + 2 * PAD;
+  geo = { pitch: cs + GAP, cs };
+  rootEl.style.setProperty('--bs', bs + 'px');
+  rootEl.style.setProperty('--cs', cs + 'px');
+  const slotW = (wrap.clientWidth - 16) / 3;
+  const tc = Math.max(8, Math.floor(Math.min(cs * 0.55, (th - 18 - 8) / 5, (slotW - 14 - 8) / 5)));
+  rootEl.style.setProperty('--tc', tc + 'px');
+}
+addEventListener('resize', layout);
+if (window.ResizeObserver) new ResizeObserver(() => layout()).observe($('#boardWrap'));
+
+function ghostOf(b, sh, r, c) {
+  const cells = new Set(sh.cells.map(([dr, dc]) => (r + dr) * N + c + dc));
+  const tmp = Uint8Array.from(b); for (const i of cells) tmp[i] = 9;
+  const hl = new Set(); const { rows, cols } = fullLines(tmp);
+  for (const r2 of rows) for (let j = 0; j < N; j++) hl.add(r2 * N + j);
+  for (const c2 of cols) for (let j = 0; j < N; j++) hl.add(j * N + c2);
+  return { cells, hl };
+}
+function renderBoard() {
+  const b = G ? G.board() : EMPTY;
+  const gh = drag && drag.ok ? drag.ghost : null;
+  for (let i = 0; i < 64; i++) {
+    const v = b[i];
+    let cls = v ? 'cell b k' + v : 'cell';
+    if (gh) { if (gh.hl.has(i)) cls += ' hl'; else if (gh.cells.has(i)) cls += ' g'; }
+    if (cellCls[i] !== cls) { cellCls[i] = cls; cellEls[i].className = cls; }
+  }
+}
+function miniHTML(p) {
+  const sh = SHAPES[p.s];
+  let h = `<div class="mini" style="grid-template-columns:repeat(${sh.w},var(--tc));grid-template-rows:repeat(${sh.h},var(--tc))">`;
+  for (const [r, c] of sh.cells) h += `<i class="b k${p.c}" style="grid-row:${r + 1};grid-column:${c + 1}"></i>`;
+  return h + '</div>';
+}
+const trayKeys = ['', '', ''];
+function renderTray() {
+  const t = G ? G.tray() : [null, null, null];
+  const act = !!(G && G.canInteract()), b = G ? G.board() : EMPTY;
+  t.forEach((p, i) => {
+    const key = p ? p.s + '.' + p.c : 'x';
+    if (trayKeys[i] !== key) { trayKeys[i] = key; slots[i].innerHTML = p ? miniHTML(p) : ''; }
+    slots[i].classList.toggle('off', !!p && (!act || !canPlace(b, SHAPES[p.s])));
+  });
+}
+function renderHud() {
+  if (!G) { scoreEl.textContent = '0'; subEl.textContent = ''; modeEl.textContent = 'Blokduel'; countEl.classList.remove('on'); rootEl.style.setProperty('--glow', 'transparent'); return; }
+  const h = G.hud();
+  if (scoreEl.textContent !== h.big) scoreEl.textContent = h.big;
+  if (subEl.textContent !== h.sub) subEl.textContent = h.sub;
+  subEl.style.color = h.subColor || '';
+  modeEl.textContent = h.mode;
+  rootEl.style.setProperty('--glow', h.glow || 'transparent');
+  if (G.startAt) {
+    const ms = G.startAt - performance.now();
+    const txt = ms > 0 ? String(Math.ceil(ms / 1000)) : ms > -700 ? 'Start!' : '';
+    countEl.textContent = txt; countEl.classList.toggle('on', !!txt);
+  } else countEl.classList.remove('on');
+}
+let oppKey = '';
+function renderOpp() {
+  const info = G && G.oppInfo ? G.oppInfo() : null;
+  oppEl.classList.toggle('on', !!info);
+  if (!info) { oppKey = ''; return; }
+  $('#oppName').textContent = info.name;
+  $('#oppStat').textContent = info.stat;
+  $('#oppScore').textContent = info.score;
+  oppEl.style.setProperty('--oc', info.color);
+  const key = info.board ? 'b' + info.board : 't' + JSON.stringify(info.tray);
+  if (key === oppKey) return;
+  oppKey = key;
+  if (info.board) {
+    let h = '<div class="mb">';
+    for (let i = 0; i < 64; i++) { const v = info.board[i] || '0'; h += v === '0' ? '<i></i>' : `<i class="k${v}"></i>`; }
+    oppVis.innerHTML = h + '</div>';
+  } else oppVis.innerHTML = (info.tray || []).map(p => p ? miniHTML(p) : '').join('');
+}
+function renderAll() { renderBoard(); renderTray(); renderHud(); renderOpp(); }
+
+/* ---------------- EFFECTEN & GELUID ---------------- */
+function spawn(cls, idx, delay, extra) {
+  const el = document.createElement('div'); el.className = cls;
+  el.style.left = (PAD + (idx & 7) * geo.pitch) + 'px'; el.style.top = (PAD + (idx >> 3) * geo.pitch) + 'px';
+  if (delay) el.style.animationDelay = delay + 'ms';
+  if (extra) el.innerHTML = extra;
+  fxEl.appendChild(el); setTimeout(() => el.remove(), 1100 + (delay || 0));
+  return el;
+}
+function fxText(html, idx) {
+  const el = document.createElement('div'); el.className = 'fxt'; el.innerHTML = html;
+  const x = idx == null ? boardEl.clientWidth / 2 : PAD + (idx & 7) * geo.pitch + geo.cs / 2;
+  const y = idx == null ? boardEl.clientHeight / 2 : PAD + (idx >> 3) * geo.pitch;
+  el.style.left = Math.max(60, Math.min(boardEl.clientWidth - 60, x)) + 'px'; el.style.top = Math.max(30, y) + 'px';
+  fxEl.appendChild(el); setTimeout(() => el.remove(), 1100);
+}
+function fxMove(res, sound = true) {
+  for (const i of res.cells) spawn('fxf', i);
+  res.cleared.forEach(([i, col], n) => spawn('fxc b k' + col, i, Math.min(n * 12, 260)));
+  if (res.lines) {
+    const mid = res.cells[Math.floor(res.cells.length / 2)];
+    let t = '+' + fmt(res.pts);
+    if (res.bonus) t += '<small>Bord leeg!</small>'; else if (res.combo >= 2) t += `<small>Combo ${res.combo}</small>`;
+    fxText(t, mid);
+  }
+  if (sound) { if (res.lines) sfx.clear(res.lines); else sfx.place(); }
+}
+let AC = null, soundOn = ls.get('sound', true);
+function audio() {
+  if (!soundOn) return null;
+  try { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) { AC = null; }
+  return AC;
+}
+function tone(f, dur, type, vol, delay = 0) {
+  const ac = audio(); if (!ac) return;
+  const t = ac.currentTime + delay, o = ac.createOscillator(), g = ac.createGain();
+  o.type = type; o.frequency.setValueAtTime(f, t);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + 0.03);
+}
+const sfx = {
+  place() { tone(330, 0.07, 'triangle', 0.1); },
+  clear(n) { for (let i = 0; i < Math.min(n + 2, 6); i++) tone(440 * Math.pow(1.26, i), 0.14, 'sine', 0.08, i * 0.05); },
+  bad() { tone(150, 0.12, 'square', 0.03); },
+  stone() { tone(110, 0.18, 'sawtooth', 0.05); },
+  win() { [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.22, 'triangle', 0.09, i * 0.1)); },
+  lose() { [392, 330, 262].forEach((f, i) => tone(f, 0.26, 'triangle', 0.08, i * 0.12)); }
+};
+let toastT = 0;
+function clearToast() { clearTimeout(toastT); toastEl.classList.remove('on'); }
+function toast(msg, ms = 2200) { toastEl.textContent = msg; toastEl.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('on'), ms); }
+
+/* ---------------- SLEPEN (snel: alleen transform + cel-updates bij verandering) ---------------- */
+let drag = null, raf = 0;
+function boardGeom() {
+  const r = boardEl.getBoundingClientRect(); const pitch = (r.width - 2 * PAD + GAP) / 8;
+  return { x0: r.left + PAD, y0: r.top + PAD, pitch, cs: pitch - GAP };
+}
+slots.forEach((el, i) => el.addEventListener('pointerdown', e => {
+  if (drag || !G) return;
+  const p = G.tray()[i]; if (!p) return;
+  if (!G.canInteract()) { if (G.waitMsg) toast(G.waitMsg()); return; }
+  e.preventDefault(); audio();
+  const gm = boardGeom(), sh = SHAPES[p.s];
+  drag = { i, p, sh, gm, id: e.pointerId, x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, moved: false, dirty: true,
+    r: -99, c: -99, ok: false, ghost: null, lift: gm.pitch * 1.2, t: performance.now(), last: performance.now(), maxDt: 0, frames: 0 };
+  try { el.setPointerCapture(e.pointerId); } catch (err) {}
+  let h = '';
+  for (const [r, c] of sh.cells) h += `<i class="cell b k${p.c}" style="left:${c * gm.pitch}px;top:${r * gm.pitch}px;width:${gm.cs}px;height:${gm.cs}px"></i>`;
+  dzEl.innerHTML = h; dragEl.style.setProperty('--cs', gm.cs + 'px');
+  dragEl.style.width = (sh.w * gm.pitch - GAP) + 'px'; dragEl.style.height = (sh.h * gm.pitch - GAP) + 'px';
+  dzEl.style.animation = 'none'; void dzEl.offsetWidth; dzEl.style.animation = '';
+  dragEl.style.display = 'block';
+  boardEl.style.setProperty('--gc', `var(--k${p.c})`);
+  el.classList.add('lift');
+  frame();
+}));
+function frame() {
+  raf = 0; if (!drag) return;
+  const d = drag, now = performance.now(), dt = now - d.last; d.last = now;
+  if (d.frames++ > 2 && dt > d.maxDt) d.maxDt = dt;
+  if (d.dirty) {
+    d.dirty = false;
+    const w = d.sh.w * d.gm.pitch - GAP, h = d.sh.h * d.gm.pitch - GAP;
+    const left = d.x - w / 2, top = d.y - h - d.lift;
+    dragEl.style.transform = `translate3d(${left}px,${top}px,0)`;
+    const c = Math.round((left - d.gm.x0) / d.gm.pitch), r = Math.round((top - d.gm.y0) / d.gm.pitch);
+    if (r !== d.r || c !== d.c) {
+      d.r = r; d.c = c; const b = G.board();
+      d.ok = fits(b, d.sh, r, c); d.ghost = d.ok ? ghostOf(b, d.sh, r, c) : null;
+      renderBoard();
+    }
+  }
+  raf = requestAnimationFrame(frame);
+}
+addEventListener('pointermove', e => {
+  if (!drag || e.pointerId !== drag.id) return;
+  drag.x = e.clientX; drag.y = e.clientY; drag.dirty = true;
+  if (!drag.moved && Math.hypot(drag.x - drag.sx, drag.y - drag.sy) > 8) drag.moved = true;
+}, { passive: true });
+function endDrag(e) {
+  if (!drag || (e && e.pointerId !== drag.id)) return;
+  const d = drag; drag = null;
+  if (raf) cancelAnimationFrame(raf); raf = 0;
+  dragEl.style.display = 'none'; dzEl.innerHTML = '';
+  slots[d.i].classList.remove('lift');
+  if (e && e.type === 'pointerup' && d.ok && d.moved && G && G.canInteract()) {
+    const res = G.drop(d.i, d.r, d.c);
+    if (!res) sfx.bad();
+  }
+  if (d.maxDt > 60) Log.add('perf', `haperend beeld tijdens slepen: ${Math.round(d.maxDt)}ms`);
+  renderAll();
+  if (G && G.afterDrag) G.afterDrag();
+}
+addEventListener('pointerup', endDrag);
+addEventListener('pointercancel', endDrag);
+
+/* ---------------- SPELVORMEN ---------------- */
+function soloGame(saved) {
+  let st;
+  if (saved) { st = Object.assign({}, saved, { R: new RNG(0), b: Uint8Array.from(saved.b) }); st.R.a = saved.rng >>> 0; }
+  else st = newRun((Math.random() * 0x7fffffff) | 0);
+  const bestAtStart = ls.get('best', 0); let best = bestAtStart, over = false;
+  const save = () => ls.set('solo', { b: Array.from(st.b), tray: st.tray, score: st.score, combo: st.combo, miss: st.miss, moves: st.moves, lines: st.lines, rng: st.R.a });
+  const g = {
+    kind: 'solo',
+    board: () => st.b, tray: () => st.tray, canInteract: () => !over,
+    hud: () => ({ big: fmt(st.score), sub: 'Beste ' + fmt(Math.max(best, st.score)), mode: 'Solo' }),
+    drop(slot, r, c) {
+      const res = applyMove(st, slot, r, c); if (!res) return null;
+      fxMove(res);
+      if (st.score > best) { best = st.score; ls.set('best', best); }
+      checkOver();
+      return res;
+    }
+  };
+  function checkOver() {
+    if (stuck(st.b, st.tray)) {
+      over = true; ls.del('solo');
+      Log.add('game', `solo afgelopen: score=${st.score} zetten=${st.moves} lijnen=${st.lines}`);
+      setTimeout(() => { sfx.lose(); showSoloOver(st.score, st.score > bestAtStart && st.score > 0); }, 700);
+    } else save();
+  }
+  save(); checkOver();
+  Log.add('game', saved ? `solo hervat (score ${st.score})` : 'solo gestart');
+  return g;
+}
+
+function raceGame(seed, gid, tm) {
+  const st = newRun(seed); st.sent = 0; st.applied = 0; st.done = false;
+  const DUR = (tm || 120) * 1000; let why = '', shown = false, oppGone = false;
+  let opp = { b: '', s: 0, at: 0, dn: 0, w: '' };
+  const g = {
+    kind: 'race', gid, startAt: performance.now() + 3200,
+    board: () => st.b, tray: () => st.tray,
+    canInteract: () => !st.done && performance.now() >= g.startAt,
+    waitMsg: () => st.done ? 'Jij bent klaar' : 'Even wachten op de start',
+    hud() {
+      const now = performance.now(), left = DUR - Math.max(0, now - g.startAt);
+      const sub = st.done ? (why === 'voor' ? 'Jij hebt meer punten' : why === 'vast' ? 'Geen ruimte meer' : 'Tijd is om')
+        : now < g.startAt ? 'Klaar voor de start'
+        : opp.dn ? `${ptn(opp.s - st.score + 1)} nodig, ${fmtTime(left)}` : fmtTime(left) + ' over';
+      return { big: fmt(st.score), mode: 'Scoreduel', sub, subColor: left < 15000 && !st.done ? 'var(--k1)' : '' };
+    },
+    oppInfo: () => ({ name: oppNick(), score: fmt(opp.s), board: opp.b || '0'.repeat(64), color: 'var(--k4)',
+      stat: oppGone ? 'Verbinding weg' : opp.dn ? (opp.w === 'vast' ? 'Zit klem' : opp.w === 'voor' ? 'Heeft meer punten' : 'Tijd is om')
+        : st.done ? (opp.s > st.score ? 'Heeft meer punten' : `Speelt nog, ${ptn(st.score - opp.s + 1)} nodig`)
+        : st.sent ? `Speelt nog, ${st.sent} ${st.sent === 1 ? 'steen' : 'stenen'} van jou gekregen` : 'Speelt nog' }),
+    drop(slot, r, c) {
+      const res = applyMove(st, slot, r, c); if (!res) return null;
+      fxMove(res);
+      const n = stonesFor(res);
+      if (n) { st.sent += n; setTimeout(() => toast(`${n} ${n === 1 ? 'steen' : 'stenen'} naar ${oppNick()}!`, 1400), 250); Log.add('game', `race: ${n} stenen verstuurd`); }
+      publish(); checkLead(); return res;
+    },
+    afterDrag() { takeStones(); checkStuck(); },
+    onOpp(o) {
+      if (!o.rb || o.rb.g !== gid) return;
+      const wasDn = opp.dn;
+      opp = { b: typeof o.rb.b === 'string' ? o.rb.b.slice(0, 64) : '', s: o.rb.s | 0, at: o.rb.at | 0, dn: o.rb.dn | 0, w: ['vast', 'tijd', 'voor'].includes(o.rb.w) ? o.rb.w : '' };
+      if (!drag) { takeStones(); checkStuck(); }
+      if (opp.dn && !wasDn && !st.done && opp.w === 'vast') {
+        Log.add('game', `race: ${oppNick()} zit klem met ${opp.s} punten`);
+        if (st.score <= opp.s) toast(`${oppNick()} zit klem. Haal meer dan ${fmt(opp.s)} punten!`, 3000);
+      }
+      checkLead(); maybeEnd();
+    },
+    dbg: () => ({ st, opp, why, DUR }),
+    tick() { if (!st.done && performance.now() - g.startAt >= DUR) finish('tijd'); maybeEnd(); },
+    lost() { oppGone = true; maybeEnd(); },
+    found() { oppGone = false; }
+  };
+  function takeStones() {
+    const inc = opp.at - st.applied;
+    if (inc > 0 && !st.done) {
+      st.applied += inc;
+      const cells = addStones(st.b, inc);
+      cells.forEach((i, n) => spawn('fxs', i, n * 60)); sfx.stone();
+      toast(`${oppNick()} stuurt je ${inc} ${inc === 1 ? 'steen' : 'stenen'}`);
+      Log.add('game', `race: ${inc} stenen ontvangen`);
+      publish(); renderAll();
+    }
+  }
+  function checkStuck() { if (!st.done && performance.now() >= g.startAt && stuck(st.b, st.tray)) finish('vast'); }
+  function checkLead() { if (!st.done && opp.dn && !oppGone && st.score > opp.s) finish('voor'); }
+  function finish(w) {
+    st.done = true; why = w; publish();
+    Log.add('game', `race klaar (${w}): score=${st.score} zetten=${st.moves} verstuurd=${st.sent} ontvangen=${st.applied}`);
+    renderAll();
+    if (!opp.dn && !oppGone) toast(`Klaar! Wachten op ${oppNick()}…`, 3000);
+    maybeEnd();
+  }
+  function maybeEnd() {
+    if (shown || !st.done || !(opp.dn || oppGone)) return;
+    shown = true;
+    setTimeout(() => showVersusResult({ mode: 'race', mine: st.score, theirs: opp.s, gone: oppGone && !opp.dn, myWhy: why, oppWhy: opp.w }), 600);
+  }
+  function publish() { Net.set({ rb: { g: gid, b: boardStr(st.b), s: st.score, at: st.sent, dn: st.done ? 1 : 0, w: why } }); }
+  publish();
+  return g;
+}
+
+function duelGame(seed, gid, local, tm) {
+  const starter = local ? localRound % 2 : (gid + 1) % 2;
+  const me = local ? -1 : (Net.role === 'h' ? 0 : 1);
+  const TM = (tm | 0) * 1000;
+  const mv = ['', ''], tout = [-1, -1], used = [0, 0];
+  let v = duelReplay(seed, starter, mv, tout), shown = false, lostAt = 0, clkP = -1, clkAt = performance.now();
+  const who = () => local ? v.turn : me;
+  const name = p => local ? `Speler ${p + 1}` : p === me ? 'Jij' : oppNick();
+  const running = () => !v.done && (local || Net.connected);
+  function clock() {
+    const now = performance.now();
+    if (clkP >= 0) used[clkP] += now - clkAt;
+    clkAt = now; clkP = TM && running() && !v.out[v.turn] ? v.turn : -1;
+  }
+  const left = p => TM - used[p] - (clkP === p ? performance.now() - clkAt : 0);
+  const clk = p => TM ? ', ' + fmtTime(Math.max(0, left(p))) : '';
+  const need = p => v.pts[1 - p] - v.pts[p] + 1;
+  const outTxt = p => v.out[p] === 1 ? (p === me ? 'Je zit klem' : `${name(p)} zit klem`) : (p === me ? 'Je tijd is op' : `${name(p)} heeft geen tijd meer`);
+  const g = {
+    kind: local ? 'local' : 'duel', gid,
+    board: () => v.b, tray: () => v.trays[who()],
+    canInteract: () => !v.done && v.turn === who() && !v.out[who()] && (local || Net.connected) && (!TM || left(who()) > 0),
+    waitMsg: () => v.done ? 'Het spel is voorbij' : !local && !Net.connected ? 'Verbinding is weg' : v.out[who()] ? 'Jij bent af' : TM && left(who()) <= 0 ? 'Je tijd is op' : `${oppNick()} is aan zet`,
+    hud() {
+      const t = v.turn, P = local ? t : me;
+      let sub;
+      if (v.done) sub = v.winner === 2 ? 'Gelijkspel' : `${name(v.winner)} wint`;
+      else if (!local && !Net.connected) sub = 'Verbinding weg…';
+      else if (local) sub = v.out[1 - t] ? `${name(t)}: ${ptn(need(t))} nodig${clk(t)}` : `${name(t)} is aan zet${clk(t)}`;
+      else if (v.out[me]) sub = outTxt(me);
+      else if (t === me) sub = v.out[1 - me] ? `${ptn(need(me))} nodig${clk(me)}` : `Jouw beurt${clk(me)}`;
+      else sub = `${oppNick()} is aan zet`;
+      const low = TM && !v.done && t === P && !v.out[t] && left(t) < 15000;
+      return { big: fmt(v.pts[P]), sub, subColor: low ? 'var(--k1)' : `var(--k${DUEL_COL[t]})`, glow: v.done ? 'transparent' : `var(--k${DUEL_COL[t]})`, mode: local ? 'Samen spelen' : 'Blokkeerduel' };
+    },
+    oppInfo() {
+      const o = local ? 1 - v.turn : 1 - me;
+      const stat = v.done ? (v.winner === 2 ? 'Gelijkspel' : v.winner === o ? 'Wint' : 'Verliest')
+        : v.out[o] ? (v.out[o] === 1 ? 'Zit klem' : 'Tijd is op')
+        : v.out[1 - o] ? `${ptn(need(o))} nodig${clk(o)}`
+        : v.turn === o ? `Is aan zet${clk(o)}`
+        : TM ? `Bedenktijd ${fmtTime(Math.max(0, left(o)))}` : 'Wacht op de volgende beurt';
+      return { name: name(o), score: fmt(v.pts[o]), tray: v.trays[o], color: `var(--k${DUEL_COL[o]})`, stat };
+    },
+    drop(slot, r, c) {
+      if (!g.canInteract()) return null;
+      const p = who(), piece = v.trays[p][slot];
+      if (!piece || !fits(v.b, SHAPES[piece.s], r, c)) return null;
+      mv[p] += `${slot}${r}${c}`;
+      if (!local) Net.set({ dg: gid, mv: mv[me] });
+      update();
+      return v.last ? v.last.res : true;
+    },
+    onOpp(o) {
+      if (local || o.dg !== gid || typeof o.mv !== 'string' || !/^([0-2][0-7][0-7])*$/.test(o.mv)) return;
+      const other = 1 - me; let ch = false;
+      if (o.mv.length > mv[other].length && o.mv.startsWith(mv[other])) { mv[other] = o.mv.slice(0, 900); ch = true; }
+      if (tout[other] < 0 && Number.isInteger(o.to) && o.to >= 0 && o.to * 3 <= mv[other].length) { tout[other] = o.to; ch = true; }
+      if (ch) update();
+    },
+    tick() {
+      clock();
+      if (TM && running()) {
+        const p = v.turn;
+        if (!v.out[p] && (local || p === me) && tout[p] < 0 && left(p) <= 0) {
+          tout[p] = v.idx[p];
+          Log.add('game', `duel: tijd op voor ${name(p)} na ${v.idx[p]} zetten`);
+          if (!local) Net.set({ dg: gid, to: tout[me] });
+          update();
+        }
+      }
+      if (local || shown) return;
+      if (!Net.connected) { if (!lostAt) lostAt = Date.now(); else if (Date.now() - lostAt > 20000) { shown = true; showVersusResult({ mode: 'duel', gone: true, me, pts: v.pts }); } }
+      else lostAt = 0;
+    },
+    lost() { toast('Verbinding weg. Even wachten…', 3000); },
+    dbg: () => ({ v, mv, tout, used, TM, left: [left(0), left(1)] })
+  };
+  function update() {
+    const prevK = v.k, prevOut = v.out.slice();
+    clock();
+    v = duelReplay(seed, starter, mv, tout);
+    clock();
+    if (v.bad) Log.add('err', `duel: ongeldige zet bij zet ${v.k} (bord loopt niet gelijk?)`);
+    if (v.k > prevK && v.last) fxMove(v.last.res);
+    if (!v.done) for (let p = 0; p < 2; p++) if (v.out[p] && !prevOut[p]) {
+      const q = 1 - p, goal = `meer dan ${fmt(v.pts[p])} punten`;
+      Log.add('game', `duel: ${name(p)} af (${v.out[p] === 1 ? 'klem' : 'tijd'}) met ${v.pts[p]} punten`);
+      toast(local ? `${outTxt(p)}. ${name(q)}: haal ${goal}!` : p === me ? `${outTxt(p)}. ${oppNick()} moet ${goal} halen.` : `${outTxt(p)}. Haal ${goal}!`, 3200);
+    }
+    if (v.done && !shown) {
+      shown = true;
+      Log.add('game', `duel klaar: winnaar=${v.winner === 2 ? 'gelijk' : name(v.winner)} af=${v.out.join('/')} zetten=${v.k} punten=${v.pts.join('/')} tijd=${TM / 1000}s`);
+      setTimeout(() => showVersusResult({ mode: local ? 'local' : 'duel', winner: v.winner, out: v.out.slice(), me, pts: v.pts }), 800);
+    }
+    renderAll();
+  }
+  clock();
+  return g;
+}
+
+/* ---------------- NETWERK: Claude-kamer (artifact), PeerJS/WebRTC (GitHub), BroadcastChannel (test) ---------------- */
+const Net = {
+  role: null, code: '', t: null, connected: false, opp: null, oppSeen: 0, rtt: 0, rttN: 0, measured: 0, lostAt: 0,
+  mine: {}, timer: 0, hb: 0, sess: 0,
+  reset() {
+    clearInterval(this.hb); this.hb = 0; clearTimeout(this.timer); this.timer = 0;
+    if (this.t) { try { this.t.send(Object.assign({}, this.mine, { bye: 1 })); } catch (e) {} try { this.t.close(Object.keys(this.mine)); } catch (e) {} }
+    this.t = null; this.connected = false; this.opp = null; this.role = null; this.mine = {}; this.sess++;
+  },
+  set(p) { Object.assign(this.mine, p); if (!this.timer) this.timer = setTimeout(() => { this.timer = 0; this.push(); }, 12); },
+  push() { if (!this.t) return; this.mine.q = (this.mine.q || 0) + 1; try { this.t.send(this.mine); } catch (e) { Log.add('err', 'versturen: ' + e.message); } },
+  receive(o) {
+    if (!o || o.app !== 'bd1' || !this.role || o.role === this.role) return;
+    if (o.bye) { this.lost('de ander is gestopt'); return; }
+    this.oppSeen = Date.now(); this.opp = o;
+    if (!this.connected) this.found();
+    if (o.pong && o.pong === this.mine.png && this.measured !== o.pong) {
+      this.measured = o.pong; this.rtt = Date.now() - o.pong;
+      if (this.rttN++ % 6 === 0) Log.add('net', `reactietijd ${this.rtt}ms`);
+      if (ui === 'lobby') updateLobby();
+    }
+    if (o.png && o.png !== this.mine.pong) this.set({ pong: o.png });
+    onOpp(o);
+  },
+  found() { if (this.connected) return; this.connected = true; this.lostAt = 0; Log.add('net', 'verbonden met ' + oppNick()); onNetUp(); },
+  lost(why) { if (!this.connected) return; this.connected = false; this.lostAt = Date.now(); Log.add('net', 'verbinding weg: ' + why); onNetDown(why); },
+  beat() { this.set({ png: Date.now() }); if (this.connected && Date.now() - this.oppSeen > 10000) this.lost('geen signaal (10s)'); }
+};
+const oppNick = () => (Net.opp && typeof Net.opp.nick === 'string' && cleanNick(Net.opp.nick)) || 'Tegenstander';
+const cleanNick = s => (String(s || '').replace(/[^\p{L}\p{N} _-]/gu, '').trim().slice(0, 14)) || 'Speler';
+const cleanCode = s => String(s || '').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+const newCode = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random() * 24)]).join('');
+
+async function roomTransport(role, code) {
+  const room = await roomP;
+  if (!room) throw Object.assign(new Error('Realtime kamer niet beschikbaar'), { type: 'room-null' });
+  let oppPeer = null, lastP = null;
+  const offPeers = room.onPeers(ch => {
+    let best = null;
+    for (const p of ch.peers) {
+      const pr = p.presence;
+      if (p.sameTab || !pr || pr.app !== 'bd1' || pr.code !== code || pr.role === role) continue;
+      if (!best || p.updatedAt > best.updatedAt) best = p;
+    }
+    if (!best) { if (oppPeer) { oppPeer = null; lastP = null; Net.lost('ander heeft de pagina verlaten'); } return; }
+    if (best.peer !== oppPeer) { oppPeer = best.peer; lastP = null; }
+    if (best.presence !== lastP) { lastP = best.presence; Net.receive(best.presence); }
+  }, err => { Log.add('err', 'kamer: ' + err.code); Net.lost('kamer ' + err.code); });
+  const offConn = room.onConnection(c => Log.add('net', 'kamer ' + (c ? 'online' : 'offline')), () => {});
+  return {
+    send(o) { room.presence(o).catch(e => Log.add('err', 'presence: ' + (e && e.code) + ' ' + (e && e.message))); },
+    close(keys) { offPeers(); offConn(); const clear = {}; for (const k of keys) clear[k] = null; room.presence(clear).catch(() => {}); }
+  };
+}
+function loadScript(src) {
+  return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.async = true; s.onload = res; s.onerror = () => rej(Object.assign(new Error('script laden mislukt'), { type: 'load' })); document.head.appendChild(s); });
+}
+async function peerTransport(role, code) {
+  if (!window.Peer) await loadScript('https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js');
+  return new Promise((resolve, reject) => {
+    let conn = null, done = false;
+    const peer = role === 'h' ? new window.Peer(PEER_PREFIX + code, { debug: 1 }) : new window.Peer({ debug: 1 });
+    const t = {
+      send(o) { if (conn && conn.open) conn.send(o); },
+      close() { try { if (conn) conn.close(); } catch (e) {} try { peer.destroy(); } catch (e) {} }
+    };
+    function wire(c) {
+      if (conn && conn.open && c !== conn) { c.on('open', () => c.close()); return; }
+      conn = c;
+      c.on('open', () => {
+        Log.add('net', 'datakanaal open');
+        try { const pc = c.peerConnection; if (pc) pc.addEventListener('iceconnectionstatechange', () => Log.add('net', 'ice ' + pc.iceConnectionState)); } catch (e) {}
+        t.send(Net.mine);
+      });
+      c.on('data', d => Net.receive(d));
+      c.on('close', () => { if (conn === c) { conn = null; Net.lost('verbinding gesloten'); } });
+      c.on('error', e => Log.add('err', 'kanaal: ' + (e && (e.type || e.message))));
+    }
+    peer.on('open', id => {
+      Log.add('net', 'signaalserver ok');
+      if (role === 'g') wire(peer.connect(PEER_PREFIX + code, { reliable: true, serialization: 'json' }));
+      if (!done) { done = true; resolve(t); }
+    });
+    peer.on('connection', c => { if (role === 'h') wire(c); else c.close(); });
+    peer.on('error', e => {
+      Log.add('err', 'peer: ' + (e && e.type));
+      if (!done) { done = true; t.close(); reject(e); } else netError(e && e.type);
+    });
+    peer.on('disconnected', () => { Log.add('net', 'signaalserver los, opnieuw…'); try { if (!peer.destroyed) peer.reconnect(); } catch (e) {} });
+  });
+}
+function bcTransport(role, code) {
+  const ch = new BroadcastChannel('bd-test-' + code);
+  ch.onmessage = e => Net.receive(e.data);
+  return Promise.resolve({ send: o => ch.postMessage(JSON.parse(JSON.stringify(o))), close: () => setTimeout(() => ch.close(), 50) });
+}
+const makeTransport = (role, code) => FORCE_BC ? bcTransport(role, code) : IN_CLAUDE ? roomTransport(role, code) : peerTransport(role, code);
+
+let joinTimer = 0;
+async function goOnline(role, code, attempt = 0) {
+  Net.reset();
+  const sess = Net.sess;
+  const nick = cleanNick(($('#nick') && $('#nick').value) || ls.get('nick', ''));
+  ls.set('nick', nick);
+  Net.role = role; Net.code = code;
+  Net.mine = { app: 'bd1', v: 1, bye: 0, role, code, nick, gid: 0, mode: '', seed: 0, dg: 0, mv: '', rb: null, png: 0, pong: 0 };
+  curGid = 0;
+  Log.add('net', `${role === 'h' ? 'spel maken' : 'meedoen'} code=${code} via ${FORCE_BC ? 'test' : IN_CLAUDE ? 'claude-kamer' : 'webrtc'}`);
+  showWaiting();
+  let t;
+  try { t = await makeTransport(role, code); }
+  catch (e) {
+    if (Net.sess !== sess) return;
+    const type = e && e.type;
+    if (role === 'h' && type === 'unavailable-id' && attempt < 3) return goOnline('h', newCode(), attempt + 1);
+    Log.add('err', 'verbinden mislukt: ' + (type || (e && e.message)));
+    return showNetError(type);
+  }
+  if (Net.sess !== sess) { try { t.close([]); } catch (e) {} return; }
+  Net.t = t;
+  Net.push();
+  Net.hb = setInterval(() => Net.beat(), 2000);
+  clearTimeout(joinTimer);
+  if (role === 'g') joinTimer = setTimeout(() => { if (!Net.connected && ui === 'wait') setStatus(`Nog geen spel gevonden met code ${code}. Heeft de ander op 'Maak een spel' getikt?`); }, 9000);
+}
+function onNetUp() {
+  if (ui === 'wait' || ui === 'neterr') { showLobby(); sfx.place(); }
+  else if (ui === 'game' || ui === 'result') { toast('Weer verbonden'); if (G && G.found) G.found(); }
+  renderAll();
+}
+function onNetDown(why) {
+  if (ui === 'game') { if (G && G.lost) G.lost(); toast(`Verbinding met ${oppNick()} weg`, 3000); }
+  else if (ui === 'lobby') showNetError('lost');
+  renderAll();
+}
+function netError(type) { if (ui === 'wait') showNetError(type); }
+function onOpp(o) {
+  if (Net.role === 'g' && o.live === 1 && o.gid && o.gid !== curGid && (o.mode === 'race' || o.mode === 'duel') && Number.isFinite(o.seed)) startOnline(o.mode, o.seed | 0, o.gid | 0, validTm(o.mode, o.tm));
+  if (G && G.onOpp && G.gid === curGid) G.onOpp(o);
+  if (ui === 'lobby') updateLobby();
+  renderOpp(); renderHud();
+}
+function hostStart(mode) {
+  const gid = (Net.mine.gid || 0) + 1, seed = (Math.random() * 0x7fffffff) | 0, tm = getTm(mode);
+  Net.set({ gid, mode, seed, tm });
+  startOnline(mode, seed, gid, tm);
+}
+function startOnline(mode, seed, gid, tm) {
+  curGid = gid;
+  Net.set(Net.role === 'h' ? { gid, dg: 0, mv: '', to: -1, rb: null, live: 1 } : { gid, dg: 0, mv: '', to: -1, rb: null });
+  closeOv(); clearToast(); ui = 'game';
+  G = mode === 'race' ? raceGame(seed, gid, tm) : duelGame(seed, gid, false, tm);
+  Log.add('game', `start ${mode === 'race' ? 'scoreduel' : 'blokkeerduel'} ronde=${gid} rol=${Net.role === 'h' ? 'maker' : 'gast'} tijd=${tm ? tm + 's' : 'geen'}`);
+  layout(); renderAll();
+}
+function leaveOnline() { clearTimeout(joinTimer); if (Net.role) Log.add('net', 'online sessie gestopt'); Net.reset(); }
+
+/* ---------------- SCHERMEN ---------------- */
+function openOv(html, name) { panelEl.innerHTML = html; ovEl.classList.add('on'); ui = name; panelEl.scrollTop = 0; }
+function closeOv() { ovEl.classList.remove('on'); }
+function setStatus(txt, wait = true) { const s = $('#netStatus'); if (s) { s.textContent = txt; s.classList.toggle('wait', wait); } }
+function showHome() {
+  leaveOnline(); G = null; renderAll(); layout();
+  const saved = ls.get('solo', null), best = ls.get('best', 0);
+  openOv(`<div class="tiles" aria-label="Blokduel">${[...'BLOKDUEL'].map(ch => `<span aria-hidden="true">${ch}</span>`).join('')}</div>
+    <p class="tag">Leg blokken, maak rijen vol. Alleen of tegen elkaar.</p>
+    ${saved ? `<button class="btn pri" data-a="cont">Doorgaan (${fmt(saved.score)} punten)</button>` : ''}
+    <button class="btn ${saved ? 'sec' : 'pri'}" data-a="solo">${saved ? 'Nieuw solospel' : 'Solo spelen'}</button>
+    <button class="btn sec" data-a="online">Online tegen elkaar</button>
+    <button class="btn sec" data-a="local">Samen op deze telefoon</button>
+    ${best ? `<p class="fine" style="text-align:center;margin-top:14px">Jouw beste score: ${fmt(best)}</p>` : ''}`, 'home');
+}
+function showOnline(prefill = '') {
+  leaveOnline();
+  const note = FORCE_BC ? 'Testmodus: twee tabbladen in dezelfde browser.'
+    : IN_CLAUDE ? 'Hier in Claude: je tegenstander opent deze zelfde pagina (deel hem via de deelknop van Claude). Voor vrienden zonder Claude-account: gebruik de GitHub-versie.'
+    : 'Werkt via internet en op dezelfde wifi. Deel de code of de uitnodigingslink.';
+  openOv(`<h2>Online tegen elkaar</h2>
+    <label class="lab" for="nick">Jouw naam</label>
+    <input id="nick" class="field" maxlength="14" autocomplete="nickname" value="${esc(ls.get('nick', ''))}" placeholder="Bijv. Sam">
+    <button class="btn pri" data-a="host">Maak een spel</button>
+    <p class="or">of doe mee met een code</p>
+    <input id="code" class="field code" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCD" value="${esc(prefill)}" aria-label="Spelcode">
+    <button class="btn sec" data-a="join">Doe mee</button>
+    <p class="fine" style="margin-top:14px">${esc(note)}</p>
+    <button class="btn ghost" data-a="home">Terug</button>`, 'online');
+}
+function showWaiting() {
+  const host = Net.role === 'h';
+  const canShare = !IN_CLAUDE || FORCE_BC;
+  openOv(host ? `<h2>Jouw spelcode</h2><div class="bigcode">${esc(Net.code)}</div>
+      <p>Laat de ander op <b>Doe mee</b> tikken en deze code invullen.</p>
+      ${canShare ? '<button class="btn sec" data-a="share">Deel uitnodiging</button>' : ''}
+      <p class="status wait" id="netStatus">Wachten op tegenstander</p>
+      <button class="btn ghost" data-a="online">Annuleren</button>`
+    : `<h2>Meedoen</h2><div class="bigcode">${esc(Net.code)}</div>
+      <p class="status wait" id="netStatus">Verbinden</p>
+      <button class="btn ghost" data-a="online">Annuleren</button>`, 'wait');
+}
+function showNetError(type) {
+  const msg = {
+    'peer-unavailable': `Geen spel gevonden met code ${Net.code}. Controleer de code, of laat de ander opnieuw een spel maken.`,
+    'room-null': 'Online spelen werkt hier alleen als je bent ingelogd bij Claude. Gebruik anders de GitHub-versie van het spel.',
+    'network': 'Geen verbinding met de server. Controleer je internet en probeer opnieuw.',
+    'server-error': 'De verbindingsserver reageert niet. Probeer het over een minuut opnieuw.',
+    'browser-incompatible': 'Deze browser ondersteunt geen directe verbinding. Gebruik Safari of Chrome.',
+    'load': 'Het netwerkonderdeel kon niet laden. Controleer je internet.',
+    'lost': `De verbinding met ${oppNick()} is weg.`
+  }[type] || 'Verbinden lukte niet. Probeer het opnieuw.';
+  const code = Net.code, role = Net.role;
+  leaveOnline();
+  openOv(`<h2>Geen verbinding</h2><p>${esc(msg)}</p>
+    ${type !== 'room-null' ? `<button class="btn pri" data-a="${role === 'h' ? 'host' : 'rejoin'}" data-code="${esc(code)}">Opnieuw proberen</button>` : ''}
+    <button class="btn ghost" data-a="home">Naar start</button>`, 'neterr');
+}
+const MODE_DESC = {
+  race: ['Scoreduel', 'Tegelijk spelen met dezelfde blokken. Maak je 2 of meer lijnen tegelijk, dan krijgt de ander stenen op zijn bord.', 'Speelduur'],
+  duel: ['Blokkeerduel', 'Samen op één bord, om de beurt. Je ziet elkaars blokken, dus zet de ander klem.', 'Bedenktijd per speler']
+};
+const RULE = 'Zit je klem of is je tijd op, dan ben je af. De ander wint zodra die meer punten heeft. Zijn jullie allebei af, dan wint wie de meeste punten heeft.';
+const TM_OPTS = { race: [60, 120, 180, 300], duel: [0, 60, 120, 180, 300] };
+const tmOpts = m => TM_OPTS[m === 'race' ? 'race' : 'duel'];
+const validTm = (m, v) => tmOpts(m).includes(v) ? v : 120;
+const getTm = m => validTm(m, ls.get('tm.' + m, 120));
+const tmLabel = v => v ? `${v / 60} min` : 'Geen';
+const chipsHTML = m => `<div class="chips" role="group">${tmOpts(m).map(v => `<button class="chip${v === getTm(m) ? ' on' : ''}" data-a="tm" data-m="${m}" data-v="${v}" aria-pressed="${v === getTm(m)}">${tmLabel(v)}</button>`).join('')}</div>`;
+function showLobby() {
+  const host = Net.role === 'h';
+  const modes = Object.entries(MODE_DESC).map(([k, [t, d, lab]]) => host
+    ? `<div class="mode"><b>${t}</b><span>${d}</span><p class="lab">${lab}</p>${chipsHTML(k)}<button class="btn pri" data-a="start" data-mode="${k}">Start ${t}</button></div>`
+    : `<div class="mode"><b>${t}</b><span>${d}</span></div>`).join('');
+  openOv(`<h2>Verbonden met <span id="oppN"></span></h2>
+    <p class="fine" id="rtt">Reactietijd meten…</p>
+    ${host ? '<p>Kies tijd en spelvorm:</p>' : '<p class="status wait" id="netStatus"></p>'}
+    ${modes}
+    <p class="fine" style="margin-top:12px">${RULE}</p>
+    <button class="btn ghost" data-a="home">Stoppen</button>`, 'lobby');
+  updateLobby();
+}
+function updateLobby() {
+  const n = $('#oppN'); if (n) n.textContent = oppNick();
+  const r = $('#rtt'); if (r && Net.rtt) r.textContent = `Reactietijd ${Net.rtt} ms${Net.rtt < 120 ? ', lekker snel' : Net.rtt < 300 ? ', prima' : ', wat traag'}`;
+  if (Net.role === 'g') setStatus(`${oppNick()} kiest de spelvorm`);
+}
+function showSoloOver(score, record) {
+  openOv(`<h2>Geen ruimte meer</h2><div class="big">${fmt(score)}</div>
+    <p style="text-align:center">${record ? 'Nieuw record!' : 'Beste score: ' + fmt(ls.get('best', 0))}</p>
+    <button class="btn pri" data-a="solo">Opnieuw</button>
+    <button class="btn ghost" data-a="home">Naar start</button>`, 'result');
+}
+function showVersusResult(r) {
+  let title, rows = '', btns = ''; clearToast();
+  if (r.mode !== 'local' && Net.role === 'h') Net.set({ live: 0 });
+  if (r.mode === 'race') {
+    title = r.gone ? `${oppNick()} is weg` : r.mine > r.theirs ? 'Jij wint!' : r.mine < r.theirs ? `${oppNick()} wint` : 'Gelijkspel';
+    const why = r.gone ? '' : r.myWhy === 'voor' ? `${oppNick()} kon niet verder en jij haalde meer punten.` : r.oppWhy === 'voor' ? `Jij kon niet verder en ${oppNick()} haalde meer punten.` : '';
+    rows = (why ? `<p style="text-align:center">${esc(why)}</p>` : '') + `<div><span>Jij</span><b>${fmt(r.mine)}</b></div><div><span>${esc(oppNick())}</span><b>${fmt(r.theirs)}</b></div>`;
+    (r.gone || r.mine >= r.theirs) ? sfx.win() : sfx.lose();
+  } else if (r.gone) {
+    title = 'Verbinding verbroken';
+  } else {
+    const L = r.mode === 'local', w = r.winner;
+    const nm = p => L ? `Speler ${p + 1}` : p === r.me ? 'Jij' : oppNick();
+    const wasOut = p => r.out[p] === 1 ? (!L && p === r.me ? 'Je zat klem' : `${nm(p)} zat klem`) : (!L && p === r.me ? 'Je tijd was op' : `${nm(p)} had geen tijd meer`);
+    title = w === 2 ? 'Gelijkspel' : L ? `Speler ${w + 1} wint!` : w === r.me ? 'Jij wint!' : `${oppNick()} wint`;
+    let why;
+    if (r.out[0] && r.out[1]) why = w === 2 ? 'Jullie konden allebei niet verder, met evenveel punten.' : 'Jullie konden allebei niet verder. De meeste punten winnen.';
+    else { const a = r.out[0] ? 0 : 1; why = `${wasOut(a)} en ${!L && w === r.me ? 'jij hebt' : nm(w).replace(/^Speler/, 'speler') + ' heeft'} meer punten.`; }
+    const order = L ? [0, 1] : [r.me, 1 - r.me];
+    rows = `<p style="text-align:center">${esc(why)}</p>` + order.map(p => `<div><span>${esc(L ? nm(p) : p === r.me ? 'Jouw punten' : oppNick())}</span><b>${fmt(r.pts[p])}</b></div>`).join('');
+    (L || w === r.me || w === 2) ? sfx.win() : sfx.lose();
+  }
+  if (r.mode === 'local') btns = '<button class="btn pri" data-a="localnext">Nog een keer</button><button class="btn ghost" data-a="home">Naar start</button>';
+  else if (r.gone || !Net.connected) btns = '<button class="btn pri" data-a="online">Nieuw online spel</button><button class="btn ghost" data-a="home">Naar start</button>';
+  else if (Net.role === 'h') btns = `<button class="btn pri" data-a="start" data-mode="${r.mode}">Nog een keer</button><button class="btn sec" data-a="lobby">Andere spelvorm</button><button class="btn ghost" data-a="home">Stoppen</button>`;
+  else btns = `<p class="status wait" id="netStatus">Wachten tot ${esc(oppNick())} een nieuw spel start</p><button class="btn ghost" data-a="home">Stoppen</button>`;
+  openOv(`<h2>${esc(title)}</h2><div class="rows">${rows}</div>${btns}`, 'result');
+}
+function showMenu() {
+  const online = !!Net.role;
+  openOv(`<h2>Menu</h2>
+    <button class="btn pri" data-a="resume">Verder spelen</button>
+    ${G && G.kind === 'solo' ? '<button class="btn sec" data-a="solo">Nieuw solospel</button>' : ''}
+    <button class="btn sec" data-a="sound">Geluid: ${soundOn ? 'aan' : 'uit'}</button>
+    <button class="btn sec" data-a="copylog">Kopieer log</button>
+    <button class="btn ghost" data-a="home">${online ? 'Stoppen en naar start' : 'Naar start'}</button>
+    <p class="fine" style="margin-top:12px">${IN_CLAUDE ? 'Tip: zeg "log" tegen Claude, dan leest die de log van deze run.' : 'Tip: plak de log in je chat met Claude als er iets misgaat.'} Versie ${VERSION}.</p>`, 'menu');
+}
+async function copyLog() {
+  await Log.flush();
+  const txt = Log.text();
+  try { await navigator.clipboard.writeText(txt); toast('Log gekopieerd'); }
+  catch (e) { openOv(`<h2>Log</h2><p class="fine">Selecteer alles en kopieer.</p><textarea class="field" readonly>${esc(txt)}</textarea><button class="btn ghost" data-a="menu">Terug</button>`, 'menu'); }
+}
+
+function startSolo(saved) { leaveOnline(); closeOv(); clearToast(); ui = 'game'; G = soloGame(saved); layout(); renderAll(); }
+function showLocalSetup() {
+  leaveOnline(); G = null; renderAll();
+  openOv(`<h2>Samen spelen</h2>
+    <p>Eén telefoon, om de beurt. Samen op één bord, en je ziet elkaars blokken.</p>
+    <p class="lab">Bedenktijd per speler</p>${chipsHTML('local')}
+    <p class="fine" style="margin-top:12px">${RULE}</p>
+    <button class="btn pri" data-a="localgo">Start</button>
+    <button class="btn ghost" data-a="home">Terug</button>`, 'localsetup');
+}
+function startLocal() {
+  leaveOnline(); closeOv(); clearToast(); ui = 'game';
+  const tm = getTm('local');
+  G = duelGame((Math.random() * 0x7fffffff) | 0, ++localRound, true, tm);
+  Log.add('game', `samen-spelen gestart tijd=${tm ? tm + 's' : 'geen'}`); layout(); renderAll();
+}
+
+const ACT = {
+  cont: () => startSolo(ls.get('solo', null)),
+  solo: () => startSolo(null),
+  local: () => showLocalSetup(),
+  localgo: () => startLocal(),
+  localnext: () => startLocal(),
+  tm: el => {
+    ls.set('tm.' + el.dataset.m, +el.dataset.v);
+    el.parentElement.querySelectorAll('.chip').forEach(c => { const on = c === el; c.classList.toggle('on', on); c.setAttribute('aria-pressed', String(on)); });
+  },
+  online: () => showOnline(),
+  home: () => showHome(),
+  host: el => goOnline('h', cleanCode(el && el.dataset.code).length === 4 ? cleanCode(el.dataset.code) : newCode()),
+  join: () => { const c = cleanCode($('#code') && $('#code').value); if (c.length !== 4) { toast('Vul de 4 letters van de code in'); return; } goOnline('g', c); },
+  rejoin: el => goOnline('g', el.dataset.code),
+  start: el => { if (Net.role === 'h' && Net.connected) hostStart(el.dataset.mode); },
+  lobby: () => showLobby(),
+  menu: () => showMenu(),
+  resume: () => { if (G) { closeOv(); ui = 'game'; } else showHome(); },
+  sound: () => { soundOn = !soundOn; ls.set('sound', soundOn); if (soundOn) sfx.place(); showMenu(); },
+  copylog: () => copyLog(),
+  share: async () => {
+    const url = location.origin + location.pathname + '?join=' + Net.code;
+    const text = `Speel Blokduel tegen me! Code: ${Net.code}`;
+    try { if (navigator.share) { await navigator.share({ title: 'Blokduel', text, url }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
+    try { await navigator.clipboard.writeText(text + ' ' + url); toast('Uitnodiging gekopieerd'); } catch (e) { toast('Code: ' + Net.code); }
+  }
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-a]'); if (!el) return;
+  const f = ACT[el.dataset.a]; if (f) { audio(); f(el); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (e.target.id === 'code') ACT.join(); else if (e.target.id === 'nick' && ui === 'online') e.target.blur();
+});
+document.addEventListener('input', e => { if (e.target.id === 'code') { const v = cleanCode(e.target.value); if (v !== e.target.value) e.target.value = v; } });
+
+setInterval(() => { if (G && G.tick) G.tick(); if (G) { renderHud(); renderTray(); renderOpp(); } }, 200);
+
+/* ---------------- START ---------------- */
+layout(); renderAll();
+Log.add('info', `bordcel ${geo.cs}px, venster ${innerWidth}x${innerHeight}`);
+const joinCode = cleanCode(params.get('join'));
+if (joinCode.length === 4) { showOnline(joinCode); if (ls.get('nick', '')) setTimeout(() => goOnline('g', joinCode), 150); }
+else showHome();
+
+if (params.has('test')) window.__bd = { get G() { return G; }, Net, SHAPES, fits, canPlace, Log, get ui() { return ui; } };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mijnenduel">
+<meta name="theme-color" content="#150F26">
+<title>Mijnenduel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik:wght@400;500;700&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#EFEAF8;--ink:#1D1533;--muted:#62558A;--panel:#FFFFFF;--line:#D8CFEB;--scrim:rgba(29,21,51,.55);
+  --well:#1D1533;--rev:#140E26;--t1:#6E5CB0;--t2:#6553A6;--mine:#A89CD0;
+  --p0:#FF6B5B;--p1:#4FB3FF;--p0s:rgba(255,107,91,.3);--p1s:rgba(79,179,255,.3);--boom:#FF9447;
+  --n1:#7CC4FF;--n2:#5EE0A0;--n3:#FF8A7A;--n4:#C79BFF;--n5:#FFC23D;--n6:#4FE3E0;--n7:#FF7AC6;--n8:#EDE8FA;
+  --font:'Rubik',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --display:'Bungee','Arial Black',system-ui,sans-serif;
+  --n:12;--cs:26px;--gap:3px;--pad:6px;--bs:330px;--glow:transparent;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150F26;--ink:#F2EDFF;--muted:#A597C8;--panel:#221A3A;--line:#3A2E58;--scrim:rgba(8,5,16,.72);--well:#0D0919;--rev:#191232;}}
+:root[data-theme="dark"]{--bg:#150F26;--ink:#F2EDFF;--muted:#A597C8;--panel:#221A3A;--line:#3A2E58;--scrim:rgba(8,5,16,.72);--well:#0D0919;--rev:#191232;}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);overflow:hidden;overscroll-behavior:none;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+button:focus-visible,input:focus-visible{outline:3px solid var(--p1);outline-offset:2px}
+
+#app{height:100%;max-width:640px;margin:0 auto;padding:4px 10px 8px;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto}
+#app.nudge{animation:nudge .6s linear}
+@keyframes nudge{0%,100%{transform:none}10%,50%,90%{transform:translate(-9px,3px) rotate(-1deg)}30%,70%{transform:translate(9px,-3px) rotate(1deg)}}
+#top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:54px}
+#mode{font-family:var(--display);font-size:14px;line-height:1.1;color:var(--muted)}
+#mid{text-align:center;min-width:110px}
+#left{font-family:var(--display);font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+#sub{font-size:12px;font-weight:500;color:var(--muted);margin-top:3px;min-height:15px;white-space:nowrap}
+.iconbtn{justify-self:end;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;padding:0}
+.iconbtn svg{width:20px;height:20px}
+
+#players{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:2px 0 8px}
+.pl{--pc:var(--p0);--pcs:var(--p0s);display:flex;align-items:center;gap:6px;min-width:0;padding:6px 7px 6px 10px;border-radius:16px;background:var(--panel);border:2px solid var(--line);transition:border-color .2s,box-shadow .2s}
+#pl1{--pc:var(--p1);--pcs:var(--p1s);flex-direction:row-reverse;text-align:right;padding:6px 10px 6px 7px}
+.pl.on{border-color:var(--pc);box-shadow:0 0 0 4px var(--pcs)}
+.pn{flex:1;min-width:0}
+.nm{display:block;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:15px}
+.pl.on .st{color:var(--ink)}
+.sc{flex:none;display:grid;place-items:center;min-width:42px;height:38px;padding:0 8px;border-radius:11px;background:var(--pc);color:#1D1533;
+  font-family:var(--display);font-size:20px;line-height:1;font-variant-numeric:tabular-nums;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+.bm{flex:none;display:grid;place-items:center;width:20px;height:20px;color:var(--muted);opacity:.55}
+.bm svg{width:18px;height:18px}
+.bm.ready{color:var(--boom);opacity:1}
+.bm.used{opacity:.18}
+
+#boardWrap{position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
+#board{position:relative;width:var(--bs);height:var(--bs);padding:var(--pad);display:grid;
+  grid-template-columns:repeat(var(--n),minmax(0,1fr));grid-template-rows:repeat(var(--n),minmax(0,1fr));gap:var(--gap);
+  background:var(--well);border-radius:14px;box-shadow:0 0 0 3px var(--glow),0 12px 30px rgba(20,10,40,.28);transition:box-shadow .25s;touch-action:manipulation}
+#board.shake{animation:shake .45s ease-out}
+@keyframes shake{0%,100%{transform:none}20%{transform:translate(-5px,2px)}40%{transform:translate(5px,-3px)}60%{transform:translate(-3px,-2px)}80%{transform:translate(2px,2px)}}
+.cell{position:relative;border-radius:24%;display:grid;place-items:center;font-family:var(--display);font-size:calc(var(--cs)*.58);line-height:1;min-width:0;min-height:0}
+.cell.h{background:var(--t1);cursor:pointer;
+  box-shadow:inset 0 calc(var(--cs)*-.1) 0 rgba(0,0,0,.26),inset 0 calc(var(--cs)*.08) 0 rgba(255,255,255,.22)}
+.cell.h.a{background:var(--t2)}
+.cell.h:active{transform:scale(.88)}
+@media (hover:hover){.cell.h:hover{filter:brightness(1.2)}}
+.cell.r{background:var(--rev)}
+.cell.n1{color:var(--n1)}.cell.n2{color:var(--n2)}.cell.n3{color:var(--n3)}.cell.n4{color:var(--n4)}
+.cell.n5{color:var(--n5)}.cell.n6{color:var(--n6)}.cell.n7{color:var(--n7)}.cell.n8{color:var(--n8)}
+.cell.f0,.cell.f1{box-shadow:inset 0 calc(var(--cs)*-.1) 0 rgba(0,0,0,.22),inset 0 calc(var(--cs)*.08) 0 rgba(255,255,255,.35)}
+.cell.f0{background:var(--p0)}.cell.f1{background:var(--p1)}
+.cell.m{color:var(--mine)}
+.cell svg{width:74%;height:74%;display:block}
+.cell.last::after{content:"";position:absolute;inset:-2px;border-radius:30%;border:2px solid #fff;opacity:.9;pointer-events:none}
+.cell.bp::before{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,148,71,.5);pointer-events:none}
+.cell.bpc::before{background:rgba(255,148,71,.95)}
+.cell.in{animation:open .34s ease-out both}
+.cell.pop{animation:claim .5s cubic-bezier(.3,1.7,.5,1) both}
+@keyframes open{0%{transform:scale(.55);opacity:.15}100%{transform:scale(1);opacity:1}}
+@keyframes claim{0%{transform:scale(.2) rotate(-25deg)}100%{transform:scale(1)}}
+#fx{position:absolute;inset:0;pointer-events:none;z-index:2}
+.fxt{position:absolute;font-family:var(--display);color:#fff;font-size:22px;line-height:1;white-space:nowrap;
+  text-shadow:0 2px 0 rgba(0,0,0,.45);animation:rise 1s ease-out both}
+.fxb{position:absolute;border-radius:50%;border:4px solid var(--boom);animation:boom .6s ease-out both}
+@keyframes rise{0%{opacity:0;transform:translate(-50%,-20%) scale(.7)}15%{opacity:1;transform:translate(-50%,-60%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-190%)}}
+@keyframes boom{0%{transform:translate(-50%,-50%) scale(.2);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+
+#bar{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:8px;min-height:64px;padding-top:8px}
+#status{font-size:15px;font-weight:500;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tool{min-height:48px;border-radius:14px;border:2px solid var(--line);background:var(--panel);padding:0 14px;font-weight:700;font-size:15px;
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.tool svg{width:18px;height:18px}
+.tool[hidden]{display:none}
+.tool[aria-disabled="true"]{opacity:.42}
+#bombBtn.ready{background:var(--boom);border-color:var(--boom);color:#1D1533;box-shadow:inset 0 -4px 0 rgba(0,0,0,.16)}
+#bombBtn.armed{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+
+#toast{position:absolute;left:50%;top:6px;transform:translate(-50%,-8px);opacity:0;pointer-events:none;z-index:45;
+  background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-weight:500;font-size:15px;max-width:88vw;text-align:center;transition:opacity .2s,transform .2s}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+
+#ov{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:var(--scrim);
+  padding:calc(env(safe-area-inset-top,0px) + 16px) 16px calc(env(safe-area-inset-bottom,0px) + 16px);touch-action:manipulation}
+#ov.on{display:flex}
+.panel{width:100%;max-width:400px;max-height:100%;overflow:auto;background:var(--panel);color:var(--ink);border-radius:24px;padding:22px 20px 18px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.panel h2{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.15;margin:0 0 6px}
+.panel p{margin:6px 0;line-height:1.45}
+.title{display:grid;gap:5px;margin:2px 0 10px}
+.title div{display:flex;justify-content:center;gap:5px}
+.title span{display:grid;place-items:center;width:38px;height:40px;border-radius:10px;font-family:var(--display);font-size:21px;color:#fff;background:var(--t1);
+  box-shadow:inset 0 -4px 0 rgba(0,0,0,.24),inset 0 3px 0 rgba(255,255,255,.25)}
+.title span.o{background:#140E26;box-shadow:none}
+.title span.o1{color:var(--n1)}.title span.o2{color:var(--n2)}.title span.o3{color:var(--n3)}.title span.o4{color:var(--n4)}.title span.o5{color:var(--n5)}
+.title span.fa{background:var(--p0)}.title span.fb{background:var(--p1)}
+.title svg{width:26px;height:26px}
+.tag{text-align:center;color:var(--muted)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:16px;background:var(--bg);margin:12px 0 4px}
+.seg button{border:0;border-radius:12px;background:transparent;padding:7px 4px;min-height:52px;text-align:center}
+.seg b{display:block;font-size:15px}
+.seg span{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+.seg button[aria-checked="true"]{background:var(--panel);box-shadow:0 2px 8px rgba(29,21,51,.18)}
+.btn{display:block;width:100%;min-height:52px;border-radius:15px;border:0;font-weight:700;font-size:17px;margin-top:10px;padding:0 14px}
+.btn.pri{background:var(--t1);color:#fff;box-shadow:inset 0 -4px 0 rgba(0,0,0,.22)}
+.btn.sec{background:transparent;border:2px solid var(--line)}
+.btn.ghost{background:transparent;color:var(--muted);font-weight:500;min-height:44px}
+.btn:active,.mode:active{transform:translateY(1px)}
+.mode{display:block;width:100%;text-align:left;border:2px solid var(--line);background:transparent;border-radius:16px;padding:13px 15px;margin-top:10px}
+.mode b{display:block;font-family:var(--display);font-weight:400;font-size:18px;margin-bottom:3px}
+.mode span{display:block;color:var(--muted);font-size:14px;line-height:1.4}
+div.mode{cursor:default}
+.lab{display:block;font-size:14px;font-weight:500;color:var(--muted);margin-top:12px}
+.field{display:block;width:100%;min-height:50px;border-radius:14px;border:2px solid var(--line);background:transparent;color:var(--ink);
+  font:500 17px var(--font);padding:0 14px;margin-top:6px;-webkit-user-select:text;user-select:text}
+.field.code{font-family:var(--display);font-size:26px;letter-spacing:.25em;text-align:center;text-transform:uppercase}
+.or{text-align:center;color:var(--muted);font-size:14px;margin:18px 0 0}
+.bigcode{font-family:var(--display);font-size:54px;letter-spacing:.14em;text-align:center;margin:6px 0 2px;-webkit-user-select:text;user-select:text}
+.status{font-weight:500}
+.status.wait::after{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--n2);margin-left:8px;vertical-align:1px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+.fine{font-size:13px;color:var(--muted)}
+.rows{margin:10px 0 4px;border-top:1px solid var(--line)}
+.rows div{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:16px}
+.rows b{font-family:var(--display);font-weight:400;font-size:20px}
+.rows i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px}
+.rules p b{font-weight:700}
+textarea.field{min-height:220px;padding:10px;font:12px/1.4 ui-monospace,Menlo,monospace}
+@media (prefers-reduced-motion:reduce){.cell.in,.cell.pop,.fxt,.fxb,#board.shake,#app.nudge{animation-duration:.01s!important;animation-delay:0s!important}.status.wait::after{animation:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <div id="mode">Mijnenduel</div>
+    <div id="mid"><div id="left">29</div><div id="sub"></div></div>
+    <button class="iconbtn" data-a="menu" aria-label="Menu"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="2" y="4" width="16" height="2.4" rx="1.2"/><rect x="2" y="9" width="16" height="2.4" rx="1.2"/><rect x="2" y="14" width="16" height="2.4" rx="1.2"/></svg></button>
+  </header>
+  <section id="players" style="visibility:hidden">
+    <div class="pl" id="pl0"><div class="pn"><b class="nm"></b><span class="st"></span></div><span class="bm"></span><span class="sc">0</span></div>
+    <div class="pl" id="pl1"><div class="pn"><b class="nm"></b><span class="st"></span></div><span class="bm"></span><span class="sc">0</span></div>
+  </section>
+  <main id="boardWrap"><div id="board" aria-label="Mijnenveld"><div id="fx"></div></div><div id="toast" role="status" aria-live="polite"></div></main>
+  <footer id="bar">
+    <div id="status" aria-live="polite"></div>
+    <button class="tool" id="nudgeBtn" data-a="nudge" hidden>Por</button>
+    <button class="tool" id="bombBtn" data-a="bomb" aria-disabled="true"></button>
+  </footer>
+</div>
+<div id="ov" role="dialog" aria-modal="true"><div class="panel" id="panel"></div></div>
+
+<script>
+(() => {
+'use strict';
+const VERSION = '1.0.0';
+const APP = 'md1';
+const PEER_PREFIX = 'mijnenduel-v1-';
+const $ = s => document.querySelector(s);
+const T0 = performance.now();
+const params = new URLSearchParams(location.search);
+const IN_CLAUDE = !!(window.claude && typeof window.claude.use === 'function');
+const FORCE_BC = params.get('net') === 'bc';
+const ls = {
+  get(k, d) { try { const v = localStorage.getItem('mijnenduel.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('mijnenduel.' + k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem('mijnenduel.' + k); } catch (e) {} }
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const hex = i => i.toString(16).padStart(2, '0');
+const pick = a => a[Math.floor(Math.random() * a.length)];
+
+const FLAG = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 3.5v13" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M7.6 3.8 15.6 7.1 7.6 10.4z" fill="#fff"/></svg>';
+const MINE = '<svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 2.6v14.8M2.6 10h14.8M4.8 4.8l10.4 10.4M15.2 4.8 4.8 15.2"/></g><circle cx="10" cy="10" r="5" fill="currentColor"/><circle cx="8.3" cy="8.3" r="1.4" fill="#fff" opacity=".6"/></svg>';
+const BOMB = '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.6" cy="12" r="6" fill="currentColor"/><path d="M12.6 7.6l2.2-2.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="16.2" cy="4" r="1.6" fill="currentColor"/></svg>';
+
+/* ---------------- LOG van de laatste run ---------------- */
+const Log = (() => {
+  const d = { run: Math.random().toString(36).slice(2, 8), version: VERSION, started: new Date().toISOString(),
+    env: FORCE_BC ? 'test-broadcast' : IN_CLAUDE ? 'claude-artifact' : 'web', ua: navigator.userAgent.slice(0, 180),
+    screen: `${screen.width}x${screen.height} dpr${window.devicePixelRatio || 1} venster${innerWidth}x${innerHeight}`, errors: 0, entries: [] };
+  let dirty = true, db = null, uid = null, busy = false;
+  function add(kind, msg) {
+    const t = ((performance.now() - T0) / 1000).toFixed(1).padStart(6, ' ');
+    d.entries.push(`${t}s ${kind.padEnd(4)} ${String(msg).replace(/[\u0000-\u001f\u007f]/g, ' ').slice(0, 240)}`);
+    if (d.entries.length > 500) d.entries.splice(0, d.entries.length - 500);
+    if (kind === 'err') { d.errors++; setTimeout(flush, 100); }
+    dirty = true;
+  }
+  async function flush() {
+    if (!dirty) return;
+    dirty = false; d.saved = new Date().toISOString();
+    ls.set('lastlog', d);
+    if (db && uid && !busy) {
+      busy = true;
+      try { await db.doc(`data/users/${uid}/runlog`).set(JSON.parse(JSON.stringify(d))); }
+      catch (e) { const c = e && e.code; if (c === 'invalid_argument' || c === 'revoked' || c === 'not_granted') { db = null; add('info', 'online log-opslag uit: ' + c); } else dirty = true; }
+      busy = false;
+    }
+  }
+  const text = () => [`Mijnenduel log  run=${d.run}  v${d.version}  omgeving=${d.env}`, `start ${d.started}`, `toestel ${d.ua}`, `scherm ${d.screen}`, `fouten ${d.errors}`, '', ...d.entries].join('\n');
+  setInterval(flush, 3000);
+  document.addEventListener('visibilitychange', () => { add('info', document.visibilityState === 'hidden' ? 'app naar achtergrond' : 'app weer zichtbaar'); if (document.visibilityState === 'hidden') flush(); });
+  addEventListener('pagehide', () => { dirty = true; flush(); });
+  return { add, flush, text, attach(ns, id) { db = ns; uid = id; dirty = true; flush(); } };
+})();
+addEventListener('error', e => Log.add('err', `${e.message || 'fout'} @${String(e.filename || '').split('/').pop()}:${e.lineno || 0}`));
+addEventListener('unhandledrejection', e => { const r = e.reason; Log.add('err', 'promise: ' + (r ? (r.code ? r.code + ' ' : '') + (r.message || r.type || String(r)) : '?')); });
+Log.add('info', `start v${VERSION} omgeving=${FORCE_BC ? 'test' : IN_CLAUDE ? 'claude' : 'web'}`);
+
+let roomP = Promise.resolve(null);
+if (IN_CLAUDE && !FORCE_BC) {
+  roomP = window.claude.use('room').catch(() => null);
+  roomP.then(r => Log.add('net', 'realtime kamer ' + (r ? 'beschikbaar' : 'niet beschikbaar')));
+  (async () => {
+    try {
+      const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+      if (!db || !user) { Log.add('info', 'db/user niet beschikbaar: log alleen lokaal'); return; }
+      const id = await user.id();
+      if (!id) { Log.add('info', 'geen gebruikers-id: log alleen lokaal'); return; }
+      try {
+        const prev = await db.doc(`data/users/${id}/runlog`).get();
+        if (prev.exists) await db.doc(`data/users/${id}/runlog_prev`).set(JSON.parse(JSON.stringify(prev.data())));
+      } catch (e) { Log.add('info', 'vorige log niet bewaard: ' + (e && e.code)); }
+      Log.attach(db, id); Log.add('info', 'log wordt online bewaard');
+    } catch (e) { Log.add('err', 'log-opslag: ' + (e && (e.code || e.message))); }
+  })();
+}
+
+/* ---------------- ENGINE ---------------- */
+class RNG {
+  constructor(s) { this.a = s >>> 0; }
+  next() { let t = (this.a = (this.a + 0x6D2B79F5) >>> 0); t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
+}
+const SIZES = {
+  compact: { n: 12, m: 29, label: 'Compact' },
+  klassiek: { n: 16, m: 51, label: 'Klassiek' }
+};
+const MVRE = /^([cb][0-9a-f]{2})*$/;
+function makeField(seed, size) {
+  const S = SIZES[size] || SIZES.compact, n = S.n, N2 = n * n;
+  const R = new RNG((seed ^ 0x6D1E) >>> 0);
+  const idx = Array.from({ length: N2 }, (_, i) => i);
+  for (let i = N2 - 1; i > 0; i--) { const j = Math.floor(R.next() * (i + 1)); const t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
+  const mines = new Uint8Array(N2); for (let k = 0; k < S.m; k++) mines[idx[k]] = 1;
+  const nb = [], cnt = new Uint8Array(N2);
+  for (let i = 0; i < N2; i++) {
+    const r = Math.floor(i / n), c = i % n, l = [];
+    for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+      if (!dr && !dc) continue; const rr = r + dr, cc = c + dc;
+      if (rr >= 0 && cc >= 0 && rr < n && cc < n) l.push(rr * n + cc);
+    }
+    nb.push(l); for (const j of l) cnt[i] += mines[j];
+  }
+  return { n, N2, mines, cnt, nb, total: S.m, need: (S.m + 1) / 2, size: SIZES[size] ? size : 'compact' };
+}
+function flood(F, cell, s, res, base) {
+  if (cell[s] || F.mines[s]) return;
+  cell[s] = 1; const q = [[s, base]]; res.open.push(s); res.dep.push(base);
+  while (q.length) {
+    const [i, d] = q.shift();
+    if (F.cnt[i]) continue;
+    for (const j of F.nb[i]) if (!cell[j] && !F.mines[j]) { cell[j] = 1; res.open.push(j); res.dep.push(d + 1); q.push([j, d + 1]); }
+  }
+}
+/* Het hele spel wordt bij elke zet deterministisch opnieuw afgespeeld uit (veld, wie begint, zetten speler 0, zetten speler 1).
+   Zo lopen twee toestellen altijd gelijk, net als in Blokduel. Zet = 'c'+hex(vak) (tik) of 'b'+hex(vak) (bom). */
+function replay(F, starter, mv) {
+  const cell = new Uint8Array(F.N2); // 0 dicht, 1 open, 2 vlag speler 0, 3 vlag speler 1
+  const score = [0, 0], bomb = [0, 0], idx = [0, 0], hist = [];
+  let turn = starter, winner = -1, bad = false;
+  for (;;) {
+    if (winner >= 0) break;
+    const p = turn;
+    if (idx[p] * 3 + 3 > mv[p].length) break;
+    const m = mv[p].substr(idx[p] * 3, 3), t = m[0], i = parseInt(m.slice(1), 16);
+    if (!(i >= 0 && i < F.N2)) { bad = true; break; }
+    const res = { p, t, i, open: [], dep: [], claim: [], cdep: [] };
+    if (t === 'c') {
+      if (cell[i]) { bad = true; break; }
+      if (F.mines[i]) { cell[i] = 2 + p; score[p]++; res.claim.push(i); res.cdep.push(0); }
+      else { flood(F, cell, i, res, 0); turn = 1 - p; }
+    } else if (t === 'b') {
+      if (bomb[p] || score[p] >= score[1 - p]) { bad = true; break; }
+      bomb[p] = 1;
+      const r0 = Math.floor(i / F.n), c0 = i % F.n;
+      for (let r = r0 - 2; r <= r0 + 2; r++) for (let c = c0 - 2; c <= c0 + 2; c++) {
+        if (r < 0 || c < 0 || r >= F.n || c >= F.n) continue;
+        const j = r * F.n + c, d = Math.max(Math.abs(r - r0), Math.abs(c - c0));
+        if (cell[j]) continue;
+        if (F.mines[j]) { cell[j] = 2 + p; score[p]++; res.claim.push(j); res.cdep.push(d); }
+        else flood(F, cell, j, res, d);
+      }
+      turn = 1 - p;
+    } else { bad = true; break; }
+    if (score[p] >= F.need) winner = p;
+    res.score = score.slice(); hist.push(res); idx[p]++;
+  }
+  return { cell, score, bomb, turn, winner, k: hist.length, last: hist[hist.length - 1] || null, hist, bad, left: F.total - score[0] - score[1] };
+}
+const bombArea = (F, i) => {
+  const out = [], r0 = Math.floor(i / F.n), c0 = i % F.n;
+  for (let r = r0 - 2; r <= r0 + 2; r++) for (let c = c0 - 2; c <= c0 + 2; c++) if (r >= 0 && c >= 0 && r < F.n && c < F.n) out.push(r * F.n + c);
+  return out;
+};
+
+/* ---------------- COMPUTER: gebruikt alleen wat zichtbaar is (cijfers en vlaggen) ---------------- */
+function analyze(F, cell) {
+  const N2 = F.N2, cons = [];
+  let claimed = 0, hiddenN = 0;
+  for (let i = 0; i < N2; i++) { if (cell[i] >= 2) claimed++; else if (!cell[i]) hiddenN++; }
+  for (let i = 0; i < N2; i++) {
+    if (cell[i] !== 1 || !F.cnt[i]) continue;
+    const U = []; let k = 0;
+    for (const j of F.nb[i]) { if (cell[j] >= 2) k++; else if (!cell[j]) U.push(j); }
+    if (U.length) cons.push({ U, r: F.cnt[i] - k });
+  }
+  const st = new Int8Array(N2);
+  const red = c => { const U = []; let r = c.r; for (const j of c.U) { if (st[j] === 1) r--; else if (st[j] === 0) U.push(j); } return { U, r }; };
+  let changed = true, guard = 0;
+  while (changed && guard++ < 14) {
+    changed = false;
+    const R = cons.map(red).filter(c => c.U.length);
+    for (const c of R) {
+      if (c.r === c.U.length) { for (const j of c.U) if (!st[j]) { st[j] = 1; changed = true; } }
+      else if (c.r === 0) { for (const j of c.U) if (!st[j]) { st[j] = -1; changed = true; } }
+    }
+    if (changed) continue;
+    for (let a = 0; a < R.length && !changed; a++) for (let b = 0; b < R.length; b++) {
+      const A = R[a], B = R[b];
+      if (a === b || A.U.length >= B.U.length || !A.U.every(j => B.U.includes(j))) continue;
+      const D = B.U.filter(j => !A.U.includes(j)), dr = B.r - A.r;
+      if (dr === D.length) { for (const j of D) if (!st[j]) { st[j] = 1; changed = true; } }
+      else if (dr === 0) { for (const j of D) if (!st[j]) { st[j] = -1; changed = true; } }
+    }
+  }
+  let known = 0, safeN = 0;
+  for (let i = 0; i < N2; i++) { if (st[i] === 1) known++; else if (st[i] === -1) safeN++; }
+  const unk = hiddenN - known - safeN, dens = unk > 0 ? Math.max(0, F.total - claimed - known) / unk : 0;
+  const prob = new Float32Array(N2).fill(-1), front = new Float32Array(N2).fill(-1);
+  for (const c of cons.map(red).filter(c => c.U.length)) { const q = c.r / c.U.length; for (const j of c.U) if (!st[j] && q > front[j]) front[j] = q; }
+  for (let i = 0; i < N2; i++) if (!cell[i]) prob[i] = st[i] === 1 ? 1 : st[i] === -1 ? 0 : front[i] >= 0 ? front[i] : dens;
+  return { st, prob };
+}
+function bestBomb(F, cell, prob) {
+  let best = { i: -1, e: -1 };
+  for (let i = 0; i < F.N2; i++) {
+    let e = 0, any = false;
+    for (const j of bombArea(F, i)) if (!cell[j]) { any = true; e += Math.max(0, prob[j]); }
+    if (any && e > best.e + 1e-6) best = { i, e };
+  }
+  return best;
+}
+function botMove(F, v, level, p) {
+  const { st, prob } = analyze(F, v.cell);
+  const hidden = []; for (let i = 0; i < F.N2; i++) if (!v.cell[i]) hidden.push(i);
+  const sure = hidden.filter(i => st[i] === 1);
+  const smart = level === 'slim' || Math.random() < 0.45;
+  if (!v.bomb[p] && v.score[p] < v.score[1 - p] && !(smart && sure.length)) {
+    const b = bestBomb(F, v.cell, prob), deficit = v.score[1 - p] - v.score[p];
+    const go = level === 'slim' ? ((deficit >= 3 && b.e >= 3) || (v.left <= 14 && b.e >= Math.min(2.2, deficit + 0.5)) || (deficit >= 2 && b.e >= 5.5))
+      : (deficit >= 3 && Math.random() < 0.3 && b.e >= 1.2);
+    if (go && b.i >= 0) return 'b' + hex(b.i);
+  }
+  if (!smart) return 'c' + hex(pick(hidden));
+  if (sure.length) return 'c' + hex(pick(sure));
+  let top = -1, cand = [];
+  for (const i of hidden) { const q = prob[i]; if (q > top + 1e-6) { top = q; cand = [i]; } else if (Math.abs(q - top) <= 1e-6) cand.push(i); }
+  return 'c' + hex(pick(cand));
+}
+
+/* ---------------- DOM ---------------- */
+const rootEl = document.documentElement, appEl = $('#app'), boardEl = $('#board'), fxEl = $('#fx'), toastEl = $('#toast');
+const leftEl = $('#left'), subEl = $('#sub'), modeEl = $('#mode'), statusEl = $('#status'), bombBtn = $('#bombBtn'), nudgeBtn = $('#nudgeBtn');
+const ovEl = $('#ov'), panelEl = $('#panel'), playersEl = $('#players'), plEls = [$('#pl0'), $('#pl1')];
+let cellEls = [], cellCls = [], cellTxt = [], animUntil = null, animDelay = null, boardN = 0;
+let G = null, ui = 'home', curGid = 0, localRound = 0, geo = { cs: 26, gap: 3, pad: 6, n: 12 }, lastResult = null;
+bombBtn.innerHTML = BOMB + '<span>Bom</span>';
+
+function buildBoard(n) {
+  if (n === boardN) return;
+  boardN = n;
+  for (const el of cellEls) el.remove();
+  cellEls = []; cellCls = []; cellTxt = [];
+  animUntil = new Float64Array(n * n); animDelay = new Int16Array(n * n);
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < n * n; i++) {
+    const d = document.createElement('div'); d.dataset.i = i; d.className = 'cell';
+    frag.appendChild(d); cellEls.push(d); cellCls.push('cell'); cellTxt.push('');
+  }
+  boardEl.insertBefore(frag, fxEl);
+  rootEl.style.setProperty('--n', n);
+  layout();
+}
+function layout() {
+  const wrap = $('#boardWrap'), n = boardN || 12;
+  const gap = n > 12 ? 2 : 3, pad = n > 12 ? 5 : 6;
+  const size = Math.min(wrap.clientWidth, wrap.clientHeight, 640);
+  const cs = Math.max(10, Math.floor((size - 2 * pad - (n - 1) * gap) / n));
+  geo = { cs, gap, pad, n };
+  rootEl.style.setProperty('--cs', cs + 'px');
+  rootEl.style.setProperty('--gap', gap + 'px');
+  rootEl.style.setProperty('--pad', pad + 'px');
+  rootEl.style.setProperty('--bs', (cs * n + (n - 1) * gap + 2 * pad) + 'px');
+}
+addEventListener('resize', layout);
+if (window.ResizeObserver) new ResizeObserver(() => layout()).observe($('#boardWrap'));
+
+function renderBoard() {
+  const N2 = boardN * boardN, now = performance.now();
+  const v = G ? G.view() : null, F = G ? G.F : null;
+  const over = v && v.winner >= 0;
+  const last = G ? G.lastCell() : -1;
+  const area = G ? G.aimArea() : null;
+  for (let i = 0; i < N2; i++) {
+    const s = v ? v.cell[i] : 0;
+    let cls, txt = '';
+    if (!s) {
+      if (over && F.mines[i]) { cls = 'cell r m'; txt = 'm'; }
+      else cls = 'cell h' + ((Math.floor(i / boardN) + i) % 2 ? ' a' : '');
+    } else if (s === 1) { const c = F.cnt[i]; cls = 'cell r' + (c ? ' n' + c : ''); txt = c ? String(c) : ''; }
+    else { cls = 'cell f' + (s - 2); txt = 'f'; }
+    if (i === last) cls += ' last';
+    if (area && area.has(i)) cls += area.c === i ? ' bp bpc' : ' bp';
+    const anim = animUntil[i] > now;
+    if (anim) cls += s >= 2 ? ' pop' : ' in';
+    if (cellCls[i] !== cls) {
+      const el = cellEls[i];
+      cellCls[i] = cls; el.className = cls;
+      el.style.animationDelay = anim ? animDelay[i] + 'ms' : '';
+      if (cellTxt[i] !== txt) { cellTxt[i] = txt; if (txt === 'f') el.innerHTML = FLAG; else if (txt === 'm') el.innerHTML = MINE; else el.textContent = txt; }
+    }
+  }
+}
+function renderPlayers() {
+  playersEl.style.visibility = G ? 'visible' : 'hidden';
+  if (!G) return;
+  G.players().forEach((p, k) => {
+    const el = plEls[k];
+    el.querySelector('.nm').textContent = p.name;
+    el.querySelector('.st').textContent = p.stat;
+    el.querySelector('.sc').textContent = p.score;
+    el.classList.toggle('on', p.active);
+    const bm = el.querySelector('.bm');
+    const bc = 'bm ' + p.bomb;
+    if (bm.className !== bc) { bm.className = bc; bm.innerHTML = BOMB; bm.title = p.bomb === 'used' ? 'Bom gebruikt' : p.bomb === 'ready' ? 'Bom mag gegooid worden' : 'Bom mag pas als je achter staat'; }
+  });
+}
+function renderHud() {
+  if (!G) {
+    leftEl.textContent = '29'; subEl.textContent = ''; modeEl.textContent = 'Mijnenduel'; statusEl.textContent = '';
+    rootEl.style.setProperty('--glow', 'transparent'); bombBtn.hidden = true; nudgeBtn.hidden = true; return;
+  }
+  const h = G.hud();
+  if (leftEl.textContent !== h.left) leftEl.textContent = h.left;
+  if (subEl.textContent !== h.sub) subEl.textContent = h.sub;
+  modeEl.textContent = h.mode;
+  if (statusEl.textContent !== h.status) statusEl.textContent = h.status;
+  rootEl.style.setProperty('--glow', h.glow || 'transparent');
+  bombBtn.hidden = false;
+  const b = G.bombState();
+  bombBtn.className = 'tool' + (b === 'armed' ? ' armed' : b === 'ready' ? ' ready' : '');
+  bombBtn.setAttribute('aria-disabled', b === 'armed' || b === 'ready' ? 'false' : 'true');
+  const lab = b === 'armed' ? 'Stop' : b === 'used' ? 'Op' : 'Bom';
+  if (bombBtn.lastChild.textContent !== lab) bombBtn.lastChild.textContent = lab;
+  nudgeBtn.hidden = G.kind !== 'online';
+}
+function renderAll() { renderBoard(); renderPlayers(); renderHud(); }
+
+boardEl.addEventListener('click', e => {
+  const el = e.target.closest('.cell'); if (!el || !G) return;
+  audio(); G.tap(+el.dataset.i); renderAll();
+});
+
+/* ---------------- EFFECTEN & GELUID ---------------- */
+const cellPos = i => ({ x: geo.pad + (i % geo.n) * (geo.cs + geo.gap) + geo.cs / 2, y: geo.pad + Math.floor(i / geo.n) * (geo.cs + geo.gap) + geo.cs / 2 });
+function fxText(txt, i, color, delay = 0) {
+  const el = document.createElement('div'); el.className = 'fxt'; el.textContent = txt;
+  const p = cellPos(i); el.style.left = Math.max(26, Math.min(boardEl.clientWidth - 26, p.x)) + 'px'; el.style.top = Math.max(26, p.y) + 'px';
+  if (color) el.style.color = color;
+  if (delay) el.style.animationDelay = delay + 'ms';
+  fxEl.appendChild(el); setTimeout(() => el.remove(), 1100 + delay);
+}
+function fxBoom(i) {
+  const el = document.createElement('div'); el.className = 'fxb';
+  const p = cellPos(i), d = (geo.cs + geo.gap) * 6.5;
+  el.style.left = p.x + 'px'; el.style.top = p.y + 'px'; el.style.width = d + 'px'; el.style.height = d + 'px';
+  fxEl.appendChild(el); setTimeout(() => el.remove(), 700);
+  boardEl.classList.remove('shake'); void boardEl.offsetWidth; boardEl.classList.add('shake');
+}
+function fxMove(res, withSound) {
+  const now = performance.now(); let maxEnd = 0;
+  const mark = (i, delay, dur) => { animUntil[i] = now + delay + dur; animDelay[i] = delay; maxEnd = Math.max(maxEnd, delay + dur); };
+  const bomb = res.t === 'b';
+  res.open.forEach((i, n) => mark(i, Math.min(res.dep[n] * (bomb ? 70 : 26), 560), 360));
+  res.claim.forEach((i, n) => mark(i, bomb ? res.cdep[n] * 70 : 0, 520));
+  const col = `var(--p${res.p})`;
+  if (bomb) {
+    fxBoom(res.i);
+    if (res.claim.length) fxText('+' + res.claim.length, res.i, col, 250);
+    if (withSound) sfx.boom();
+  } else if (res.claim.length) { fxText('+1', res.i, col); if (withSound) sfx.claim(); }
+  else if (withSound) sfx.open(res.open.length);
+  setTimeout(renderBoard, maxEnd + 40);
+}
+let AC = null, soundOn = ls.get('sound', true);
+function audio() {
+  if (!soundOn) return null;
+  try { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); } catch (e) { AC = null; }
+  return AC;
+}
+function tone(f, dur, type, vol, delay = 0, f2) {
+  const ac = audio(); if (!ac) return;
+  const t = ac.currentTime + delay, o = ac.createOscillator(), g = ac.createGain();
+  o.type = type; o.frequency.setValueAtTime(f, t); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + 0.03);
+}
+const sfx = {
+  open(n) { const k = Math.min(5, 1 + Math.floor(n / 6)); for (let i = 0; i < k; i++) tone(420 * Math.pow(1.12, i), 0.06, 'triangle', 0.07, i * 0.035); },
+  claim() { tone(660, 0.1, 'sine', 0.09); tone(990, 0.16, 'sine', 0.08, 0.07); },
+  boom() { tone(140, 0.55, 'sawtooth', 0.09, 0, 40); tone(70, 0.6, 'square', 0.05, 0.02, 35); },
+  turn() { tone(880, 0.09, 'sine', 0.05); },
+  bad() { tone(150, 0.12, 'square', 0.03); },
+  nudge() { for (let i = 0; i < 6; i++) tone(i % 2 ? 190 : 150, 0.07, 'square', 0.05, i * 0.08); },
+  win() { [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.22, 'triangle', 0.09, i * 0.1)); },
+  lose() { [392, 330, 262].forEach((f, i) => tone(f, 0.26, 'triangle', 0.08, i * 0.12)); }
+};
+let toastT = 0;
+function clearToast() { clearTimeout(toastT); toastEl.classList.remove('on'); }
+function toast(msg, ms = 2200) { toastEl.textContent = msg; toastEl.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('on'), ms); }
+
+/* ---------------- SPEL (computer, samen, online: dezelfde motor) ---------------- */
+function flagsGame(o) {
+  const F = makeField(o.seed, o.size);
+  const mv = o.mv ? [String(o.mv[0] || ''), String(o.mv[1] || '')] : ['', ''];
+  const kind = o.kind, gid = o.gid || 0, level = o.level || 'slim';
+  const me = kind === 'online' ? (Net.role === 'h' ? 0 : 1) : kind === 'bot' ? 0 : -1;
+  let v = replay(F, o.starter, mv), shown = false, lostAt = 0, botT = 0, armed = false, aim = -1;
+  const hinted = [false, false];
+  const who = () => kind === 'local' ? v.turn : me;
+  const name = p => kind === 'local' ? `Speler ${p + 1}` : p === me ? 'Jij' : kind === 'bot' ? 'Computer' : oppNick();
+  const chain = p => v.last && v.last.p === p && v.last.t === 'c' && v.last.claim.length > 0;
+  const rc = i => `r${Math.floor(i / F.n) + 1}k${i % F.n + 1}`;
+  const g = {
+    kind, gid, F,
+    view: () => v,
+    over: () => v.winner >= 0,
+    canInteract: () => v.winner < 0 && v.turn === who() && (kind !== 'online' || Net.connected),
+    bombState() {
+      const p = kind === 'local' ? v.turn : me;
+      if (armed) return 'armed';
+      if (v.bomb[p]) return 'used';
+      return g.canInteract() && v.score[p] < v.score[1 - p] ? 'ready' : 'idle';
+    },
+    waitMsg: () => v.winner >= 0 ? 'Het spel is voorbij' : kind === 'online' && !Net.connected ? 'Verbinding is weg' : kind === 'bot' ? 'De computer is aan zet' : `${oppNick()} is aan zet`,
+    lastCell: () => v.last && (kind === 'local' || v.last.p !== me || v.last.t === 'b') ? v.last.i : -1,
+    aimArea() {
+      if (!armed || aim < 0) return null;
+      const s = new Set(bombArea(F, aim)); s.c = aim; return s;
+    },
+    hud() {
+      const t = v.turn, w = v.winner;
+      let status;
+      if (w >= 0) status = kind === 'local' ? `${name(w)} wint!` : w === me ? 'Jij wint! Alle mijnen liggen nu open.' : `${name(w)} wint. Alle mijnen liggen nu open.`;
+      else if (armed) status = aim < 0 ? 'Tik waar je bom moet vallen.' : 'Tik nog een keer op het oranje vak om te gooien.';
+      else if (kind === 'online' && !Net.connected) status = 'Verbinding weg…';
+      else if (g.canInteract()) status = chain(t) ? 'Raak! Je mag nog een keer.' : kind === 'local' ? `${name(t)} is aan zet.` : 'Jouw beurt. Zoek een mijn.';
+      else status = kind === 'bot' ? 'De computer denkt na…' : `${oppNick()} is aan zet.`;
+      return { left: String(v.left), sub: `${F.need} om te winnen`, mode: kind === 'bot' ? (level === 'slim' ? 'Computer: slim' : 'Computer: makkelijk') : kind === 'local' ? 'Samen spelen' : 'Online',
+        status, glow: w >= 0 ? `var(--p${w})` : `var(--p${t})` };
+    },
+    players() {
+      return [0, 1].map(p => ({
+        name: name(p), score: v.score[p], active: v.winner < 0 && v.turn === p,
+        stat: v.winner >= 0 ? (v.winner === p ? 'Wint' : '') : v.turn === p ? (chain(p) ? 'Raak, nog een keer' : kind === 'bot' && p === 1 ? 'Denkt na' : 'Aan zet') : 'Wacht',
+        bomb: v.bomb[p] ? 'used' : v.score[p] < v.score[1 - p] ? 'ready' : 'idle'
+      }));
+    },
+    tap(i) {
+      if (!g.canInteract()) { toast(g.waitMsg()); return; }
+      if (armed) {
+        if (aim !== i) {
+          const area = bombArea(F, i);
+          if (!area.some(j => !v.cell[j])) { toast('Daar valt niets meer te halen'); return; }
+          aim = i; return;
+        }
+        armed = false; aim = -1; act('b' + hex(i)); return;
+      }
+      if (v.cell[i]) return;
+      act('c' + hex(i));
+    },
+    toggleBomb() {
+      const b = g.bombState();
+      if (b === 'armed') { armed = false; aim = -1; return; }
+      if (b === 'ready') { armed = true; aim = -1; return; }
+      if (!g.canInteract()) toast(g.waitMsg());
+      else if (b === 'used') toast('Je bom is al gebruikt');
+      else toast('Je mag je bom pas gooien als je achter staat');
+    },
+    onOpp(x) {
+      if (kind !== 'online' || x.dg !== gid || !Array.isArray(x.mv)) return;
+      let ch = false;
+      for (const p of [0, 1]) {
+        const s = x.mv[p];
+        if (typeof s !== 'string' || s.length > 900 || !MVRE.test(s)) continue;
+        if (s.length > mv[p].length && s.startsWith(mv[p])) { mv[p] = s; ch = true; }
+      }
+      if (ch) update();
+    },
+    tick() {
+      if (kind !== 'online' || shown) return;
+      if (!Net.connected) { if (!lostAt) lostAt = Date.now(); else if (Date.now() - lostAt > 20000) { shown = true; showResult({ kind, gone: true, score: v.score.slice(), me }); } }
+      else lostAt = 0;
+    },
+    lost() { toast('Verbinding weg. Even wachten…', 3000); },
+    result() {
+      return { kind, winner: v.winner, me, score: v.score.slice(), names: [name(0), name(1)], size: F.size, level };
+    },
+    stop() { clearTimeout(botT); }
+  };
+  function act(m) {
+    const p = kind === 'local' ? v.turn : me;
+    mv[p] += m;
+    update();
+  }
+  function publish() { if (kind === 'online') Net.set({ dg: gid, mv: [mv[0], mv[1]] }); }
+  function update() {
+    const prevK = v.k, prevTurn = v.turn;
+    v = replay(F, o.starter, mv);
+    if (v.bad) Log.add('err', `ongeldige zet na zet ${v.k} (lopen de toestellen niet gelijk?)`);
+    const fresh = v.hist.slice(prevK);
+    fresh.forEach((res, n) => {
+      fxMove(res, n === fresh.length - 1);
+      Log.add('zet', `${name(res.p)} ${res.t === 'b' ? 'bom op' : 'tikt'} ${rc(res.i)}: ${res.claim.length ? res.claim.length + ' mijn' + (res.claim.length > 1 ? 'en' : '') : 'mis'}${res.open.length ? ', ' + res.open.length + ' vakjes open' : ''} [${res.score.join('-')}]`);
+      if (res.t === 'b' && kind !== 'local' && res.p !== me) toast(`${name(res.p)} gooit een bom!`);
+    });
+    if (fresh.length && v.winner < 0 && v.turn !== prevTurn && g.canInteract() && kind !== 'local') sfx.turn();
+    const hp = kind === 'local' ? v.turn : me;
+    if (hp >= 0 && !hinted[hp] && v.winner < 0 && g.bombState() === 'ready') { hinted[hp] = true; setTimeout(() => { if (G === g && g.bombState() === 'ready') toast(kind === 'local' ? `${name(hp)} staat achter en mag nu de bom gooien` : 'Je staat achter: je mag nu je bom gooien', 2800); }, 700); }
+    publish();
+    if (kind === 'bot') { if (v.winner < 0) ls.set('bot', { seed: o.seed, size: F.size, starter: o.starter, level, mv: [mv[0], mv[1]] }); else ls.del('bot'); }
+    if (v.winner >= 0 && !shown) {
+      shown = true;
+      Log.add('game', `klaar: ${name(v.winner)} wint ${v.score.join('-')} na ${v.k} zetten`);
+      if (kind === 'bot') { const rec = ls.get('rec', { w: 0, l: 0 }); rec[v.winner === 0 ? 'w' : 'l']++; ls.set('rec', rec); }
+      if (kind === 'online' && Net.role === 'h') Net.set({ live: 0 });
+      setTimeout(() => { if (G === g) showResult(g.result()); }, 1500);
+    }
+    renderAll();
+    schedule();
+  }
+  function schedule() {
+    clearTimeout(botT);
+    if (kind !== 'bot' || v.winner >= 0 || v.turn !== 1) return;
+    const big = v.last && v.last.open.length > 12;
+    botT = setTimeout(() => {
+      if (G !== g || v.winner >= 0 || v.turn !== 1) return;
+      const t0 = performance.now(), m = botMove(F, v, level, 1), ms = performance.now() - t0;
+      if (ms > 80) Log.add('perf', `computer rekende ${Math.round(ms)}ms`);
+      mv[1] += m; update();
+    }, (big ? 900 : 600) + Math.random() * 450);
+  }
+  Log.add('game', `start ${kind}${kind === 'bot' ? ' (' + level + ')' : ''} bord=${F.size} begint=${name(o.starter)}${o.mv ? ' (hervat, ' + v.k + ' zetten)' : ''}`);
+  publish();
+  setTimeout(schedule, 400);
+  return g;
+}
+
+/* ---------------- NETWERK: Claude-kamer (artifact), PeerJS/WebRTC (elders), BroadcastChannel (test) ---------------- */
+const Net = {
+  role: null, code: '', t: null, connected: false, opp: null, oppSeen: 0, rtt: 0, rttN: 0, measured: 0, lostAt: 0,
+  mine: {}, timer: 0, hb: 0, sess: 0, nudgeSeen: -1,
+  reset() {
+    clearInterval(this.hb); this.hb = 0; clearTimeout(this.timer); this.timer = 0;
+    if (this.t) { try { this.t.send(Object.assign({}, this.mine, { bye: 1 })); } catch (e) {} try { this.t.close(Object.keys(this.mine)); } catch (e) {} }
+    this.t = null; this.connected = false; this.opp = null; this.role = null; this.mine = {}; this.sess++; this.nudgeSeen = -1;
+  },
+  set(p) {
+    let ch = false;
+    for (const k in p) if (JSON.stringify(this.mine[k]) !== JSON.stringify(p[k])) { ch = true; break; }
+    if (!ch) return;
+    Object.assign(this.mine, p); if (!this.timer) this.timer = setTimeout(() => { this.timer = 0; this.push(); }, 12);
+  },
+  push() { if (!this.t) return; this.mine.q = (this.mine.q || 0) + 1; try { this.t.send(this.mine); } catch (e) { Log.add('err', 'versturen: ' + e.message); } },
+  receive(o) {
+    if (!o || o.app !== APP || !this.role || o.role === this.role) return;
+    if (o.bye) { this.lost('de ander is gestopt'); return; }
+    this.oppSeen = Date.now(); this.opp = o;
+    if (!this.connected) this.found();
+    if (o.pong && o.pong === this.mine.png && this.measured !== o.pong) {
+      this.measured = o.pong; this.rtt = Date.now() - o.pong;
+      if (this.rttN++ % 6 === 0) Log.add('net', `reactietijd ${this.rtt}ms`);
+      if (ui === 'lobby') updateLobby();
+    }
+    if (o.png && o.png !== this.mine.pong) this.set({ pong: o.png });
+    onOpp(o);
+  },
+  found() { if (this.connected) return; this.connected = true; this.lostAt = 0; Log.add('net', 'verbonden met ' + oppNick()); onNetUp(); },
+  lost(why) { if (!this.connected) return; this.connected = false; this.lostAt = Date.now(); Log.add('net', 'verbinding weg: ' + why); onNetDown(why); },
+  beat() { this.set({ png: Date.now() }); if (this.connected && Date.now() - this.oppSeen > 10000) this.lost('geen signaal (10s)'); }
+};
+const oppNick = () => (Net.opp && typeof Net.opp.nick === 'string' && cleanNick(Net.opp.nick)) || 'Tegenstander';
+const cleanNick = s => (String(s || '').replace(/[^\p{L}\p{N} _-]/gu, '').trim().slice(0, 14)) || 'Speler';
+const cleanCode = s => String(s || '').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4);
+const newCode = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random() * 24)]).join('');
+
+async function roomTransport(role, code) {
+  const room = await roomP;
+  if (!room) throw Object.assign(new Error('Realtime kamer niet beschikbaar'), { type: 'room-null' });
+  let oppPeer = null, lastP = null;
+  const offPeers = room.onPeers(ch => {
+    let best = null;
+    for (const p of ch.peers) {
+      const pr = p.presence;
+      if (p.sameTab || !pr || pr.app !== APP || pr.code !== code || pr.role === role) continue;
+      if (!best || p.updatedAt > best.updatedAt) best = p;
+    }
+    if (!best) { if (oppPeer) { oppPeer = null; lastP = null; Net.lost('ander heeft de pagina verlaten'); } return; }
+    if (best.peer !== oppPeer) { oppPeer = best.peer; lastP = null; }
+    if (best.presence !== lastP) { lastP = best.presence; Net.receive(best.presence); }
+  }, err => { Log.add('err', 'kamer: ' + err.code); Net.lost('kamer ' + err.code); });
+  const offConn = room.onConnection(c => Log.add('net', 'kamer ' + (c ? 'online' : 'offline')), () => {});
+  return {
+    send(o) { room.presence(o).catch(e => Log.add('err', 'presence: ' + (e && e.code) + ' ' + (e && e.message))); },
+    close(keys) { offPeers(); offConn(); const clear = {}; for (const k of keys) clear[k] = null; room.presence(clear).catch(() => {}); }
+  };
+}
+function loadScript(src) {
+  return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.async = true; s.onload = res; s.onerror = () => rej(Object.assign(new Error('script laden mislukt'), { type: 'load' })); document.head.appendChild(s); });
+}
+async function peerTransport(role, code) {
+  if (!window.Peer) await loadScript('https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js');
+  return new Promise((resolve, reject) => {
+    let conn = null, done = false;
+    const peer = role === 'h' ? new window.Peer(PEER_PREFIX + code, { debug: 1 }) : new window.Peer({ debug: 1 });
+    const t = {
+      send(o) { if (conn && conn.open) conn.send(o); },
+      close() { try { if (conn) conn.close(); } catch (e) {} try { peer.destroy(); } catch (e) {} }
+    };
+    function wire(c) {
+      if (conn && conn.open && c !== conn) { c.on('open', () => c.close()); return; }
+      conn = c;
+      c.on('open', () => {
+        Log.add('net', 'datakanaal open');
+        try { const pc = c.peerConnection; if (pc) pc.addEventListener('iceconnectionstatechange', () => Log.add('net', 'ice ' + pc.iceConnectionState)); } catch (e) {}
+        t.send(Net.mine);
+      });
+      c.on('data', d => Net.receive(d));
+      c.on('close', () => { if (conn === c) { conn = null; Net.lost('verbinding gesloten'); } });
+      c.on('error', e => Log.add('err', 'kanaal: ' + (e && (e.type || e.message))));
+    }
+    peer.on('open', () => {
+      Log.add('net', 'signaalserver ok');
+      if (role === 'g') wire(peer.connect(PEER_PREFIX + code, { reliable: true, serialization: 'json' }));
+      if (!done) { done = true; resolve(t); }
+    });
+    peer.on('connection', c => { if (role === 'h') wire(c); else c.close(); });
+    peer.on('error', e => {
+      Log.add('err', 'peer: ' + (e && e.type));
+      if (!done) { done = true; t.close(); reject(e); } else netError(e && e.type);
+    });
+    peer.on('disconnected', () => { Log.add('net', 'signaalserver los, opnieuw…'); try { if (!peer.destroyed) peer.reconnect(); } catch (e) {} });
+  });
+}
+function bcTransport(role, code) {
+  const ch = new BroadcastChannel('md-test-' + code);
+  ch.onmessage = e => Net.receive(e.data);
+  return Promise.resolve({ send: o => ch.postMessage(JSON.parse(JSON.stringify(o))), close: () => setTimeout(() => ch.close(), 50) });
+}
+const makeTransport = (role, code) => FORCE_BC ? bcTransport(role, code) : IN_CLAUDE ? roomTransport(role, code) : peerTransport(role, code);
+
+let joinTimer = 0;
+async function goOnline(role, code, attempt = 0) {
+  Net.reset();
+  const sess = Net.sess;
+  const nick = cleanNick(($('#nick') && $('#nick').value) || ls.get('nick', ''));
+  ls.set('nick', nick);
+  Net.role = role; Net.code = code;
+  Net.mine = { app: APP, v: 1, bye: 0, role, code, nick, gid: 0, mode: '', seed: 0, live: 0, dg: 0, mv: null, png: 0, pong: 0, nudge: 0 };
+  curGid = 0;
+  Log.add('net', `${role === 'h' ? 'spel maken' : 'meedoen'} code=${code} via ${FORCE_BC ? 'test' : IN_CLAUDE ? 'claude-kamer' : 'webrtc'}`);
+  showWaiting();
+  let t;
+  try { t = await makeTransport(role, code); }
+  catch (e) {
+    if (Net.sess !== sess) return;
+    const type = e && e.type;
+    if (role === 'h' && type === 'unavailable-id' && attempt < 3) return goOnline('h', newCode(), attempt + 1);
+    Log.add('err', 'verbinden mislukt: ' + (type || (e && e.message)));
+    return showNetError(type);
+  }
+  if (Net.sess !== sess) { try { t.close([]); } catch (e) {} return; }
+  Net.t = t;
+  Net.push();
+  Net.hb = setInterval(() => Net.beat(), 2000);
+  clearTimeout(joinTimer);
+  if (role === 'g') joinTimer = setTimeout(() => { if (!Net.connected && ui === 'wait') setStatus(`Nog geen spel gevonden met code ${code}. Heeft de ander op 'Maak een spel' getikt?`); }, 9000);
+}
+function onNetUp() {
+  if (ui === 'wait' || ui === 'neterr') { showLobby(); sfx.turn(); }
+  else if (ui === 'game' || ui === 'result') toast('Weer verbonden');
+  renderAll();
+}
+function onNetDown() {
+  if (ui === 'game') { if (G && G.lost) G.lost(); toast(`Verbinding met ${oppNick()} weg`, 3000); }
+  else if (ui === 'lobby') showNetError('lost');
+  renderAll();
+}
+function netError(type) { if (ui === 'wait') showNetError(type); }
+function onOpp(o) {
+  if (Net.role === 'g' && o.live === 1 && o.gid && o.gid !== curGid && SIZES[o.mode] && Number.isFinite(o.seed)) startOnline(o.mode, o.seed | 0, o.gid | 0);
+  if (G && G.onOpp && G.gid === curGid) G.onOpp(o);
+  if (typeof o.nudge === 'number' && o.nudge !== Net.nudgeSeen) {
+    const first = Net.nudgeSeen === -1; Net.nudgeSeen = o.nudge;
+    if (!first && o.nudge) getNudged();
+  }
+  if (ui === 'lobby') updateLobby();
+  renderAll();
+}
+let lastNudge = 0;
+function sendNudge() {
+  if (!Net.connected) { toast('Er is geen verbinding'); return; }
+  if (Date.now() - lastNudge < 8000) { toast('Wacht even met porren'); return; }
+  lastNudge = Date.now(); Net.set({ nudge: lastNudge }); toast(`Je gaf ${oppNick()} een por`); Log.add('game', 'por gegeven');
+}
+function getNudged() {
+  appEl.classList.remove('nudge'); void appEl.offsetWidth; appEl.classList.add('nudge');
+  sfx.nudge(); try { if (navigator.vibrate) navigator.vibrate([90, 60, 90]); } catch (e) {}
+  toast(`${oppNick()} geeft je een por!`); Log.add('game', 'por ontvangen');
+}
+function hostStart(size) {
+  if (!SIZES[size]) size = 'compact';
+  const gid = (Net.mine.gid || 0) + 1, seed = (Math.random() * 0x7fffffff) | 0;
+  Net.set({ gid, mode: size, seed });
+  startOnline(size, seed, gid);
+}
+function startOnline(size, seed, gid) {
+  curGid = gid;
+  Net.set(Net.role === 'h' ? { gid, dg: 0, mv: null, live: 1 } : { gid, dg: 0, mv: null });
+  closeOv(); clearToast(); stopGame(); ui = 'game';
+  G = flagsGame({ kind: 'online', seed, size, starter: (gid + 1) % 2, gid });
+  buildBoard(G.F.n); layout(); renderAll();
+}
+function leaveOnline() { clearTimeout(joinTimer); if (Net.role) Log.add('net', 'online sessie gestopt'); Net.reset(); }
+function stopGame() { if (G && G.stop) G.stop(); G = null; }
+
+/* ---------------- SCHERMEN ---------------- */
+function openOv(html, name) { panelEl.innerHTML = html; ovEl.classList.add('on'); ui = name; panelEl.scrollTop = 0; }
+function closeOv() { ovEl.classList.remove('on'); }
+function setStatus(txt, wait = true) { const s = $('#netStatus'); if (s) { s.textContent = txt; s.classList.toggle('wait', wait); } }
+const curSize = () => { const s = ls.get('size', null); return SIZES[s] ? s : innerWidth < 500 ? 'compact' : 'klassiek'; };
+const TITLE = (() => {
+  const t = (ch, c) => `<span class="${c}">${ch}</span>`;
+  return `<div class="title" role="img" aria-label="Mijnenduel"><div>${t('M', '')}${t('I', 'o o1')}${t('J', '')}${t('N', 'o o2')}${t('E', '')}${t('N', 'o o3')}</div>
+    <div><span class="fa">${FLAG}</span>${t('D', 'o o4')}${t('U', '')}${t('E', 'o o5')}${t('L', '')}<span class="fb">${FLAG}</span></div></div>`;
+})();
+function showHome() {
+  leaveOnline(); stopGame(); buildBoard(SIZES[curSize()].n); renderAll(); layout();
+  const saved = ls.get('bot', null), size = curSize(), rec = ls.get('rec', { w: 0, l: 0 });
+  let savedTxt = '';
+  if (saved) { try { const s = replay(makeField(saved.seed, saved.size), saved.starter, saved.mv).score; savedTxt = ` (${s[0]}–${s[1]})`; } catch (e) {} }
+  openOv(`${TITLE}
+    <p class="tag">Mijnenveger voor twee, zoals vroeger op MSN.</p>
+    <div class="seg" role="radiogroup" aria-label="Bord">${Object.entries(SIZES).map(([k, s]) =>
+      `<button role="radio" aria-checked="${k === size}" data-a="size" data-size="${k}"><b>${s.label}</b><span>${s.n}×${s.n}, ${s.m} mijnen</span></button>`).join('')}</div>
+    ${saved ? `<button class="btn pri" data-a="cont">Verder tegen de computer${savedTxt}</button>` : ''}
+    <button class="btn ${saved ? 'sec' : 'pri'}" data-a="bot">Tegen de computer</button>
+    <button class="btn sec" data-a="online">Online tegen elkaar</button>
+    <button class="btn sec" data-a="local">Samen op deze telefoon</button>
+    <button class="btn ghost" data-a="rules">Hoe werkt het?</button>
+    ${rec.w + rec.l ? `<p class="fine" style="text-align:center;margin-top:8px">Tegen de computer: ${rec.w} gewonnen, ${rec.l} verloren</p>` : ''}`, 'home');
+}
+function showRules() {
+  openOv(`<h2>Hoe werkt het?</h2><div class="rules">
+    <p>Jullie zoeken om de beurt in hetzelfde mijnenveld. Anders dan bij gewone mijnenveger wil je de mijnen juist vinden.</p>
+    <p><b>Tik je een mijn,</b> dan krijgt hij jouw vlag en mag je nog een keer.</p>
+    <p><b>Tik je een leeg vakje,</b> dan zie je een cijfer: zoveel mijnen liggen eromheen. Daarna is de ander aan de beurt.</p>
+    <p><b>Sta je achter?</b> Dan mag je één keer je bom gooien. Die opent een vak van 5×5 en alle mijnen daarin zijn van jou.</p>
+    <p>Wie als eerste meer dan de helft van de mijnen heeft, wint. Online kun je de ander een por geven als die te lang nadenkt.</p></div>
+    <button class="btn pri" data-a="home">Terug</button>`, 'rules');
+}
+function showBotPick() {
+  const s = SIZES[curSize()];
+  openOv(`<h2>Tegen de computer</h2>
+    <button class="mode" data-a="botgo" data-level="makkelijk"><b>Makkelijk</b><span>Gokt vaak en mist dingen die jij wel ziet.</span></button>
+    <button class="mode" data-a="botgo" data-level="slim"><b>Slim</b><span>Rekent de cijfers door en bewaart zijn bom voor het juiste moment.</span></button>
+    <p class="fine" style="margin-top:12px">Bord: ${s.label}, ${s.n}×${s.n}. Wisselen kan op het startscherm.</p>
+    <button class="btn ghost" data-a="home">Terug</button>`, 'botpick');
+}
+function startBot(level, saved) {
+  leaveOnline(); closeOv(); stopGame(); ui = 'game';
+  let o;
+  if (saved) o = { kind: 'bot', seed: saved.seed, size: saved.size, starter: saved.starter, level: saved.level, mv: saved.mv };
+  else {
+    const round = ls.get('botRound', 0) + 1; ls.set('botRound', round);
+    o = { kind: 'bot', seed: (Math.random() * 0x7fffffff) | 0, size: curSize(), starter: round % 2 ? 0 : 1, level: level === 'makkelijk' ? 'makkelijk' : 'slim' };
+    ls.set('botLevel', o.level);
+  }
+  G = flagsGame(o); buildBoard(G.F.n); layout(); renderAll();
+}
+function startLocal(size) {
+  leaveOnline(); closeOv(); stopGame(); ui = 'game';
+  localRound++;
+  G = flagsGame({ kind: 'local', seed: (Math.random() * 0x7fffffff) | 0, size: size || curSize(), starter: (localRound + 1) % 2 });
+  buildBoard(G.F.n); layout(); renderAll();
+}
+function showOnline(prefill = '') {
+  leaveOnline();
+  const note = FORCE_BC ? 'Testmodus: twee tabbladen in dezelfde browser.'
+    : IN_CLAUDE ? 'Hier in Claude: je tegenstander opent deze zelfde pagina (deel hem via de deelknop van Claude).'
+    : 'Werkt via internet en op dezelfde wifi. Deel de code of de uitnodigingslink.';
+  openOv(`<h2>Online tegen elkaar</h2>
+    <label class="lab" for="nick">Jouw naam</label>
+    <input id="nick" class="field" maxlength="14" autocomplete="nickname" value="${esc(ls.get('nick', ''))}" placeholder="Bijv. Sam">
+    <button class="btn pri" data-a="host">Maak een spel</button>
+    <p class="or">of doe mee met een code</p>
+    <input id="code" class="field code" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCD" value="${esc(prefill)}" aria-label="Spelcode">
+    <button class="btn sec" data-a="join">Doe mee</button>
+    <p class="fine" style="margin-top:14px">${esc(note)}</p>
+    <button class="btn ghost" data-a="home">Terug</button>`, 'online');
+}
+function showWaiting() {
+  const host = Net.role === 'h', canShare = !IN_CLAUDE || FORCE_BC;
+  openOv(host ? `<h2>Jouw spelcode</h2><div class="bigcode">${esc(Net.code)}</div>
+      <p>Laat de ander op <b>Doe mee</b> tikken en deze code invullen.</p>
+      ${canShare ? '<button class="btn sec" data-a="share">Deel uitnodiging</button>' : ''}
+      <p class="status wait" id="netStatus">Wachten op tegenstander</p>
+      <button class="btn ghost" data-a="online">Annuleren</button>`
+    : `<h2>Meedoen</h2><div class="bigcode">${esc(Net.code)}</div>
+      <p class="status wait" id="netStatus">Verbinden</p>
+      <button class="btn ghost" data-a="online">Annuleren</button>`, 'wait');
+}
+function showNetError(type) {
+  const msg = {
+    'peer-unavailable': `Geen spel gevonden met code ${Net.code}. Controleer de code, of laat de ander opnieuw een spel maken.`,
+    'room-null': 'Online spelen werkt hier alleen als je bent ingelogd bij Claude.',
+    'network': 'Geen verbinding met de server. Controleer je internet en probeer opnieuw.',
+    'server-error': 'De verbindingsserver reageert niet. Probeer het over een minuut opnieuw.',
+    'browser-incompatible': 'Deze browser ondersteunt geen directe verbinding. Gebruik Safari of Chrome.',
+    'load': 'Het netwerkonderdeel kon niet laden. Controleer je internet.',
+    'lost': `De verbinding met ${oppNick()} is weg.`
+  }[type] || 'Verbinden lukte niet. Probeer het opnieuw.';
+  const code = Net.code, role = Net.role;
+  leaveOnline();
+  openOv(`<h2>Geen verbinding</h2><p>${esc(msg)}</p>
+    ${type !== 'room-null' ? `<button class="btn pri" data-a="${role === 'h' ? 'host' : 'rejoin'}" data-code="${esc(code)}">Opnieuw proberen</button>` : ''}
+    <button class="btn ghost" data-a="home">Naar start</button>`, 'neterr');
+}
+const MODE_DESC = {
+  compact: ['Compact', '12×12 met 29 mijnen. Wie er 15 heeft, wint. Snel en fijn op een telefoon.'],
+  klassiek: ['Klassiek', '16×16 met 51 mijnen, net als vroeger op MSN. Wie er 26 heeft, wint.']
+};
+function showLobby() {
+  const host = Net.role === 'h';
+  const modes = Object.entries(MODE_DESC).map(([k, [t, d]]) => host
+    ? `<button class="mode" data-a="start" data-size="${k}"><b>${t}</b><span>${d}</span></button>`
+    : `<div class="mode"><b>${t}</b><span>${d}</span></div>`).join('');
+  openOv(`<h2>Verbonden met <span id="oppN"></span></h2>
+    <p class="fine" id="rtt">Reactietijd meten…</p>
+    ${host ? '<p>Kies een bord:</p>' : '<p class="status wait" id="netStatus"></p>'}
+    ${modes}
+    <button class="btn ghost" data-a="home">Stoppen</button>`, 'lobby');
+  updateLobby();
+}
+function updateLobby() {
+  const n = $('#oppN'); if (n) n.textContent = oppNick();
+  const r = $('#rtt'); if (r && Net.rtt) r.textContent = `Reactietijd ${Net.rtt} ms${Net.rtt < 120 ? ', lekker snel' : Net.rtt < 300 ? ', prima' : ', wat traag'}`;
+  if (Net.role === 'g') setStatus(`${oppNick()} kiest het bord`);
+}
+function showResult(r) {
+  lastResult = r;
+  let title, rows = '', btns = '';
+  const row = (p, label, sc) => `<div><span><i style="background:var(--p${p})"></i>${esc(label)}</span><b>${sc}</b></div>`;
+  if (r.gone) title = 'Verbinding verbroken';
+  else if (r.kind === 'local') { title = `${r.names[r.winner]} wint!`; sfx.win(); }
+  else { const win = r.winner === r.me; title = win ? 'Jij wint!' : `${r.names[r.winner]} wint`; win ? sfx.win() : sfx.lose(); }
+  if (r.score) rows = row(0, r.names ? r.names[0] : 'Speler 1', r.score[0]) + row(1, r.names ? r.names[1] : 'Speler 2', r.score[1]);
+  const view = '<button class="btn ghost" data-a="view">Bekijk het veld</button>';
+  if (r.kind === 'bot') {
+    const rec = ls.get('rec', { w: 0, l: 0 });
+    btns = `<button class="btn pri" data-a="botgo" data-level="${r.level}">Nog een keer</button>${view}<button class="btn ghost" data-a="home">Naar start</button>
+      <p class="fine" style="text-align:center">Tegen de computer: ${rec.w} gewonnen, ${rec.l} verloren</p>`;
+  } else if (r.kind === 'local') btns = `<button class="btn pri" data-a="localnext" data-size="${r.size}">Nog een keer</button>${view}<button class="btn ghost" data-a="home">Naar start</button>`;
+  else if (r.gone || !Net.connected) btns = '<button class="btn pri" data-a="online">Nieuw online spel</button><button class="btn ghost" data-a="home">Naar start</button>';
+  else if (Net.role === 'h') btns = `<button class="btn pri" data-a="start" data-size="${r.size}">Nog een keer</button><button class="btn sec" data-a="lobby">Ander bord</button>${view}<button class="btn ghost" data-a="home">Stoppen</button>`;
+  else btns = `<p class="status wait" id="netStatus">Wachten tot ${esc(oppNick())} een nieuw spel start</p>${view}<button class="btn ghost" data-a="home">Stoppen</button>`;
+  openOv(`<h2>${esc(title)}</h2><div class="rows">${rows}</div>${btns}`, 'result');
+}
+function showMenu() {
+  const online = !!Net.role, over = G && G.over();
+  openOv(`<h2>Menu</h2>
+    ${over && lastResult ? '<button class="btn pri" data-a="result">Uitslag bekijken</button>' : '<button class="btn pri" data-a="resume">Verder spelen</button>'}
+    ${G && G.kind === 'bot' ? '<button class="btn sec" data-a="bot">Nieuw spel tegen de computer</button>' : ''}
+    ${G && G.kind === 'local' ? '<button class="btn sec" data-a="localnext">Nieuw spel samen</button>' : ''}
+    <button class="btn sec" data-a="rulesm">Hoe werkt het?</button>
+    <button class="btn sec" data-a="sound">Geluid: ${soundOn ? 'aan' : 'uit'}</button>
+    <button class="btn sec" data-a="copylog">Kopieer log</button>
+    <button class="btn ghost" data-a="home">${online ? 'Stoppen en naar start' : 'Naar start'}</button>
+    <p class="fine" style="margin-top:12px">${IN_CLAUDE ? 'Tip: zeg "log" tegen Claude, dan leest die de log van deze run.' : 'Tip: plak de log in je chat met Claude als er iets misgaat.'} Versie ${VERSION}.</p>`, 'menu');
+}
+async function copyLog() {
+  await Log.flush();
+  const txt = Log.text();
+  try { await navigator.clipboard.writeText(txt); toast('Log gekopieerd'); }
+  catch (e) { openOv(`<h2>Log</h2><p class="fine">Selecteer alles en kopieer.</p><textarea class="field" readonly>${esc(txt)}</textarea><button class="btn ghost" data-a="menu">Terug</button>`, 'menu'); }
+}
+
+const ACT = {
+  cont: () => { const s = ls.get('bot', null); if (s && SIZES[s.size] && Array.isArray(s.mv)) startBot(s.level, s); else showBotPick(); },
+  bot: () => showBotPick(),
+  botgo: el => startBot(el.dataset.level),
+  local: () => startLocal(),
+  localnext: el => startLocal(el && SIZES[el.dataset.size] ? el.dataset.size : (G && G.F.size)),
+  online: () => showOnline(),
+  home: () => showHome(),
+  rules: () => showRules(),
+  rulesm: () => { showRules(); panelEl.querySelector('[data-a="home"]').dataset.a = 'menu'; },
+  size: el => { ls.set('size', el.dataset.size); showHome(); },
+  host: el => goOnline('h', cleanCode(el && el.dataset.code).length === 4 ? cleanCode(el.dataset.code) : newCode()),
+  join: () => { const c = cleanCode($('#code') && $('#code').value); if (c.length !== 4) { toast('Vul de 4 letters van de code in'); return; } goOnline('g', c); },
+  rejoin: el => goOnline('g', el.dataset.code),
+  start: el => { if (Net.role === 'h' && Net.connected) hostStart(el.dataset.size); },
+  lobby: () => { stopGame(); renderAll(); showLobby(); },
+  menu: () => showMenu(),
+  resume: () => { if (G) { closeOv(); ui = 'game'; } else showHome(); },
+  result: () => { if (lastResult) showResult(lastResult); },
+  view: () => { closeOv(); ui = 'game'; },
+  sound: () => { soundOn = !soundOn; ls.set('sound', soundOn); if (soundOn) sfx.turn(); showMenu(); },
+  copylog: () => copyLog(),
+  bomb: () => { if (G) { G.toggleBomb(); renderAll(); } },
+  nudge: () => sendNudge(),
+  share: async () => {
+    const url = location.origin + location.pathname + '?join=' + Net.code;
+    const text = `Speel Mijnenduel tegen me! Code: ${Net.code}`;
+    try { if (navigator.share) { await navigator.share({ title: 'Mijnenduel', text, url }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
+    try { await navigator.clipboard.writeText(text + ' ' + url); toast('Uitnodiging gekopieerd'); } catch (e) { toast('Code: ' + Net.code); }
+  }
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-a]'); if (!el) return;
+  const f = ACT[el.dataset.a]; if (f) { audio(); f(el); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && G && G.bombState() === 'armed') { G.toggleBomb(); renderAll(); return; }
+  if (e.key !== 'Enter') return;
+  if (e.target.id === 'code') ACT.join(); else if (e.target.id === 'nick' && ui === 'online') e.target.blur();
+});
+document.addEventListener('input', e => { if (e.target.id === 'code') { const v = cleanCode(e.target.value); if (v !== e.target.value) e.target.value = v; } });
+
+setInterval(() => { if (G && G.tick) G.tick(); if (G) { renderHud(); renderPlayers(); } }, 250);
+
+/* ---------------- START ---------------- */
+buildBoard(SIZES[curSize()].n); renderAll();
+Log.add('info', `venster ${innerWidth}x${innerHeight}, vakje ${geo.cs}px`);
+const joinCode = cleanCode(params.get('join'));
+if (joinCode.length === 4) { showOnline(joinCode); if (ls.get('nick', '')) setTimeout(() => goOnline('g', joinCode), 150); }
+else showHome();
+
+if (params.has('test')) window.__md = { get G() { return G; }, Net, SIZES, makeField, replay, botMove, analyze, Log, get ui() { return ui; } };
+})();
+</script>
+</body>
+</html>

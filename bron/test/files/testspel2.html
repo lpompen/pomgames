@@ -1,0 +1,9 @@
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Testspel</title><meta name="description" content="Een klein testspel voor de import"></head>
+<body style="font-family:sans-serif"><h1 id="h">Testspel v2</h1><p id="who"></p><p id="q"></p><button id="x">Klaar</button>
+<script>
+const params = new URLSearchParams(location.search);
+document.getElementById('who').textContent = 'Speler: ' + (window.PG_HOST ? PG_HOST.playerName : '-') + ' tegen ' + (window.PG_HOST && PG_HOST.opponent ? PG_HOST.opponent.name : '-');
+document.getElementById('q').textContent = 'join=' + (params.get('join') || '') + ' host=' + (params.get('host') || '') + ' pad=' + location.pathname + ' nick=' + localStorage.getItem('testspel.nick');
+document.getElementById('x').onclick = () => PG_HOST.exit();
+PG_HOST.log('game', 'testspel gestart');
+</script></body></html>

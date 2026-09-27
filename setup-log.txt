@@ -1,0 +1,14 @@
+PomGames setup-log
+===================
+
+[2026-09-27] Start uitrol door Claude Code, volgens OPDRACHT-CLAUDE-CODE.md
+
+Stap 0: tools controleren
+- node: ontbrak -> geinstalleerd via winget (OpenJS.NodeJS.LTS) -> v24.19.0 (nadien npx meldde ook npm-omgeving met node 15.31.0-achtige regel, feitelijk npm-versie; node zelf = v24.19.0)
+- git: al aanwezig -> 2.54.0.windows.1
+- gh (GitHub CLI): ontbrak -> geinstalleerd via winget (GitHub.cli) -> 2.101.0
+- firebase-tools: gecontroleerd via "npx -y firebase-tools@latest --version" -> 15.31.0
+- gcloud: niet aanwezig, niet geinstalleerd (optioneel volgens opdracht)
+- Map: C:\Users\ludo\OneDrive - Mutsaerts B.V\Bureaublad\Test-Code\Prive\pomgames (uitgepakt uit pomgames.zip)
+
+Volgende stap: STOP-vraag stap 0 (beheerdersnaam + projectnaam) aan gebruiker gesteld.
