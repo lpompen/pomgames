@@ -11,12 +11,13 @@
 - GitHub Pages: live, HTTP 200.
 - Firebase Authentication: e-mail/wachtwoord aan.
 - Firestore-database: aangemaakt in europe-west1, regels gedeployed met `pompie` als beheerder.
-- Accounts, spelers, berichten, uitnodigingen en buzzers werken vanaf nu.
+- Accounts, spelers, berichten, uitnodigingen, buzzers en pushmeldingen werken allemaal.
+- Blaze-abonnement actief, meldingen-sleutel ingevuld in `config.js`.
+- Cloud Function `stuurMelding` (v2, europe-west1, nodejs22) live.
+- Lokale regressietests (`bron/test/e2e.py`, `e2e2.py`) slagen, geen fouten.
 
-## Nog open (alleen door de gebruiker te doen)
-1. **Blaze-abonnement** nodig voor pushmeldingen (stap 6, punt 1).
-2. **Meldingen-sleutel** (VAPID key) genereren en doorgeven (stap 6, punt 2).
-3. Daarna: Cloud Function `stuurMelding` deployen (stap 7).
+## Nog open
+Niets meer — alle stappen (0 t/m 9) uit `OPDRACHT-CLAUDE-CODE.md` zijn doorlopen.
 
 ## Bekende restjes
 - Losse, ongebruikte lege Google Cloud-projecten `pomgames-8mun2q` en `pomgames-tk39rz` zijn per ongeluk aangemaakt

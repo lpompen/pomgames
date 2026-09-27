@@ -1,6 +1,6 @@
-import asyncio, os
+import asyncio, os, json, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__))
-os.makedirs(os.path.join(HERE, 'uit'), exist_ok=True), json, sys, time
+os.makedirs(os.path.join(HERE, 'uit'), exist_ok=True)
 from playwright.async_api import async_playwright
 URL = 'http://localhost:8765/index.html?mock=1&net=bc&test=1'
 SHOT = os.path.join(HERE, 'uit') + '/'

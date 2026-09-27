@@ -68,3 +68,21 @@ Stap 7: Cloud Function (pushmeldingen)
 - poging 2: kwam verder (IAM-bindingen gelukt, functiecode geupload) maar faalde op het aanmaken van de
   Eventarc-trigger: "Permission denied while using the Eventarc Service Agent... may take a few minutes".
   Ook bekende opstartfout uit de opdracht. Opnieuw 5 minuten gewacht voor poging 3.
+- poging 3 (--force): gelukt. functions:list bevestigt stuurMelding, v2, europe-west1, nodejs22.
+- Commit + push -> gelukt.
+
+Stap 8: testen
+- config.js op GitHub Pages bevat de vapidKey (curl-check) -> OK.
+- /spel/test/ geeft HTTP 404 (404.html vangt af) -> OK, zoals verwacht.
+- Playwright (Python) geinstalleerd (pip install playwright + playwright install chromium) om de bestaande
+  bron/test/e2e.py en e2e2.py te kunnen draaien. Deze draaien lokaal met ?mock=1, dus zonder de productie-Firebase
+  aan te raken; er is geen testaccount op pomgames-82aa0 zelf aangemaakt/opgeruimd.
+  - bron/test/e2e.py bevatte een kapotte importregel (json/sys/time werden niet echt geimporteerd) -> gefixt.
+  - e2e.py: geslaagd, 0 fouten in beide logs, geen pagina-fouten.
+  - e2e2.py: eerste run gaf een Playwright-timeout op een page.goto (leek eenmalige traagheid/race-conditie,
+    de lokale server bleef normaal reageren); tweede run: geslaagd, 0 fouten, geen pagina-fouten.
+- Lokale testserver (python -m http.server 8765) achteraf gestopt.
+- Live site https://lpompen.github.io/pomgames/ handmatig gecontroleerd in een browser: laadt correct
+  (inlog/account-scherm), geen console-fouten.
+
+Status: PomGames staat volledig online en werkend, inclusief pushmeldingen (stuurMelding-functie).
